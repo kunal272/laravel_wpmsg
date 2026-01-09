@@ -1,0 +1,738 @@
+@extends('layouts.main')
+@section('title')
+Dashboard
+@stop
+@section('style')
+<style>
+    /*  Card Enhancements */
+    .card {
+        border-radius: 15px !important;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+    }
+
+    /*  Card Header Styling */
+    .card h5 {
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        color: #333;
+        border-bottom: 2px solid #ffdab9;
+    }
+
+    /*  Header Backgrounds */
+    .card h5[id^="Source"],
+    .card h5[id^="Order"],
+    .card h5[id^="Key"],
+    .card h5[id^="Unactivated"],
+    .card h5[id^="Product"] {
+        /* background: linear-gradient(135deg, #ffe6c7, #ffd2a1); */
+        border-radius: 15px 15px 0 0;
+        color: #2e2e2e;
+    }
+
+    /*  Table Styling */
+    .table {
+        border-collapse: separate;
+        border-spacing: 0 4px;
+    }
+
+    .table th {
+        background-color: #fafafa;
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 0.85rem;
+        border-bottom: 2px solid #eee;
+    }
+
+    .table td {
+        vertical-align: middle;
+        padding: 8px 10px;
+    }
+
+    .table tr:hover {
+        background-color: #fff6ee;
+    }
+
+    /*  Total Row Highlight */
+    .table tr:last-child {
+        background-color: #e6f7ff;
+        font-weight: bold;
+        border-top: 2px solid #007bff;
+    }
+
+    /*  Button & Badge Styling */
+    .btn-primary.btn-sm {
+        border-radius: 10px;
+        font-weight: 500;
+    }
+
+    /*  Accordion Styling */
+    .accordion-button {
+        font-weight: 600;
+        /* background: linear-gradient(135deg, #ffe6c7, #ffd2a1); */
+        color: #333;
+        border-radius: 12px !important;
+    }
+
+    .accordion-button:focus {
+        box-shadow: none;
+    }
+
+    /*  Small Icon Fix */
+    img {
+        border-radius: 3px;
+    }
+
+    /*  Column Padding */
+    .col-4 {
+        padding: 0 10px;
+    }
+
+    /*  Responsive Fixes */
+    @media (max-width: 992px) {
+        .col-4 {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+    }
+</style>
+@stop
+
+@section('content')
+<!-- MAIN-CONTENT -->
+<div class="page-body">
+    <div class="container-fluid">
+        <div class="row page-title">
+            <div class="col-sm-6">
+                <h3>Dashboard</h3>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid default-dashboard">
+        <div class="row  mt-2">
+            <div class="col-4  mt-2">
+                <div class="card-columns">
+                    <div class="card border-primary">
+                        <h5 class="text-center" id="SourceTemproryToday"
+                            style="background-color:#ffdab9; height:40px;cursor:pointer;">
+                            <div class="mt-2">Source Temprory
+                                <span> [Today Only] </span>
+                            </div>
+                        </h5>
+
+
+                        <div class="card-body">
+                            <table width="100%" class="table table-sm">
+                                <tr>
+                                    <td>
+                                    </td>
+                                    <td>
+                                        <strong> Hitcount</strong>
+                                    </td>
+                                    <td>
+                                        <strong> Purchased </strong>
+                                    </td>
+
+                                </tr>
+                                @php
+                                $SourceTempORDERCOUNT = 0;
+                                $SourceTempORDERCOUNTSUCCESS = 0;
+                                @endphp
+                                @foreach ($summery as $SourceTemprary)
+                                <tr>
+                                    <td><b>{{ $SourceTemprary->ORDERDATE }}</b>
+                                        [{{ $SourceTemprary->ORDERDATEAPP }}]</td>
+                                    <td>{{ $SourceTemprary->ORDERCOUNT }}</td>
+                                    <td>{{ $SourceTemprary->ORDERCOUNTSUCCESS }}</td>
+                                    <td>
+
+                                    </td>
+                                    @php
+                                    $SourceTempORDERCOUNT =
+                                    $SourceTempORDERCOUNT + $SourceTemprary->ORDERCOUNT;
+                                    $SourceTempORDERCOUNTSUCCESS =
+                                    $SourceTempORDERCOUNTSUCCESS + $SourceTemprary->ORDERCOUNTSUCCESS;
+                                    @endphp
+                                </tr>
+                                @endforeach
+                                <tr>
+                                    <td style="text-align:center;"> <b> Total</b></td>
+                                    <td> <b>{{ $SourceTempORDERCOUNT }}</b></td>
+                                    <td><b> {{ $SourceTempORDERCOUNTSUCCESS }}</b></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-columns  mt-2">
+                    <div class="card border-primary">
+                        <h5 class="text-center " id="ProductSummeryToday"
+                            style="background-color:#ffdab9; height:40px; cursor:pointer">
+                            <div class="mt-2"> Product Summery
+                                <span> [Today] </span>
+                            </div>
+                        </h5>
+                        <div class="card-body">
+                            <table width="100%" class="table table-sm">
+                                <tr>
+                                    <td> </td>
+                                    <td> <strong> Hitcount</strong> </td>
+                                    <td> <strong> Checkout Count</strong> </td>
+                                    <td> <strong> Purchased</strong> </td>
+                                    <td><strong>In %</strong></td>
+                                </tr>
+                                @php
+                                $productOrdercount = 0;
+                                $productCheckCount = 0;
+                                $productORDERCOUNTSUCCESS = 0;
+                                @endphp
+                                @foreach ($Product as $productSummery)
+                                <tr>
+                                    <td>{{ $productSummery->PRODNAME }}</td>
+                                    <td>{{ $productSummery->ORDERCOUNT }}</td>
+                                    <td>{{ $productSummery->CHECKOUTCOUNT }}</td>
+                                    <td>{{ $productSummery->ORDERCOUNTSUCCESS }}</td>
+                                    <td>
+                                        {{ round(($productSummery->ORDERCOUNTSUCCESS / ($productSummery->CHECKOUTCOUNT == 0 ? 1 : $productSummery->CHECKOUTCOUNT)) * 100, 2) }}
+                                    </td>
+                                    @php
+                                    $productOrdercount = $productOrdercount + $productSummery->ORDERCOUNT;
+                                    $productCheckCount =
+                                    $productCheckCount + $productSummery->CHECKOUTCOUNT;
+                                    $productORDERCOUNTSUCCESS =
+                                    $productORDERCOUNTSUCCESS + $productSummery->ORDERCOUNTSUCCESS;
+                                    @endphp
+                                </tr>
+                                @endforeach
+                                <tr>
+                                    <td style="text-align:center;"> <b> Total</b></td>
+                                    <td><b>{{ $productOrdercount }}</b></td>
+                                    <td><b>{{ $productCheckCount }}</b></td>
+                                    <td><b> {{ $productORDERCOUNTSUCCESS }}</b></td>
+
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-columns mt-2">
+                    <div class="card border-primary">
+                        <h5 class="text-center " id="OrderSummerylastTenDays"
+                            style="background-color:#ffdab9; height:40px; cursor:pointer;">
+                            <div class="mt-2"> Order Summery
+                                <span> [Last 10 Days]</span>
+                            </div>
+                        </h5>
+                        <div class="card-body">
+                            <table width="100%" class="table table-sm">
+                                <tr>
+                                    <td>
+
+                                    </td>
+                                    <td>
+                                        <strong> Hitcount </strong>
+                                    </td>
+                                    <td>
+                                        <strong> Checkout count </strong>
+                                    </td>
+                                    <td>
+                                        <strong> Purchased </strong>
+                                    </td>
+                                    <td>
+                                        <strong> In % </strong>
+                                    </td>
+
+                                </tr>
+                                @php
+                                $OrderSummeryORDERCOUNT = 0;
+                                $OrderSummeryCHECKOUTCOUNT = 0;
+                                $OrderSummeryORDERCOUNTSUCCESS = 0;
+                                @endphp
+                                @foreach ($order as $order)
+                                <tr>
+                                    <td>{{ $order->ORDERDATE }}</td>
+                                    <td>{{ $order->ORDERCOUNT }}</td>
+                                    <td>{{ $order->CHECKOUTCOUNT }}</td>
+                                    <td>{{ $order->ORDERCOUNTSUCCESS }}</td>
+
+                                    <td>
+                                        {{ round(($order->ORDERCOUNTSUCCESS / $order->CHECKOUTCOUNT) * 100, 2) }}
+                                    </td>
+
+                                    @php
+                                    $OrderSummeryORDERCOUNT = $OrderSummeryORDERCOUNT + $order->ORDERCOUNT;
+                                    $OrderSummeryCHECKOUTCOUNT += $order->CHECKOUTCOUNT;
+                                    $OrderSummeryORDERCOUNTSUCCESS =
+                                    $OrderSummeryORDERCOUNTSUCCESS + $order->ORDERCOUNTSUCCESS;
+                                    @endphp
+                                </tr>
+                                @endforeach
+                                <tr>
+                                    <td style="text-align:center;"> <b> Total</b></td>
+                                    <td> <b>{{ $OrderSummeryORDERCOUNT }}</b></td>
+                                    <td><b>{{ $OrderSummeryCHECKOUTCOUNT }}</b></td>
+                                    <td><b> {{ $OrderSummeryORDERCOUNTSUCCESS }}</b></td>
+
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="card-columns mt-2">
+                    <div class="card border-primary">
+                        <h5 class="text-center " id="OrderSummeryToday"
+                            style="background-color:#ffdab9; height:40px; cursor:pointer">
+                            <div class="mt-2">Order Summery
+                                <span> [Today]</span>
+                            </div>
+                        </h5>
+                        @php
+                        $TodayORDERCOUNT = 0;
+                        $TodayORDERCOUNTSUCCESS = 0;
+                        $TotalCheckOutCount = 0;
+                        @endphp
+                        <div class="card-body">
+                            <table width="100%" class="table table-sm">
+                                <tr>
+                                    <td>
+                                    </td>
+                                    <td>
+                                        <strong> Hitcount</strong>
+                                    </td>
+                                    <td>
+                                        <strong> Checkout count </strong>
+                                    </td>
+                                    <td>
+                                        <strong> Purchased </strong>
+                                    </td>
+                                </tr>
+                                @foreach ($OrderSummeryToday as $order)
+                                <tr>
+                                    <td>
+                                        {{ $order->ORDERTYPENAME }}
+                                        @switch($order->ORDERTYPE)
+                                        @case(0)
+                                        <img src="{{ url('/') }}/public/assets/images/icon/eu.svg"
+                                            alt='Online' width='15' height='15' title='Online' />
+                                        @break
+
+                                        @case(1)
+                                        <img src="{{ url('/') }}/public/assets/images/icon/DP.svg"
+                                            alt='Dealer Portal' width='15' height='15' title='Portal' />
+                                        @break
+
+                                        @case(2)
+                                        <img src="{{ url('/') }}/public/assets/images/icon/dukan.svg"
+                                            alt='NPAV Dukan' width='15' height='15' title='Dukan' />
+                                        @break
+
+                                        @case(3)
+                                        <img src="{{ url('/') }}/public/assets/images/icon/rw.svg"
+                                            alt='Renewal wizard' width='15' height='15' title='BuyNowExe' />
+                                        @break
+
+                                        @case(4)
+                                        <img src="{{ url('/') }}/public/assets/images/icon/renewal.svg"
+                                            alt='NPAV Renewal' width='15' height='15' title='Renewal' />
+                                        @break
+
+                                        @case(5)
+                                        <img src="{{ url('/') }}/public/assets/images/icon/offer.svg"
+                                            alt='Offer' width='15' height='15' title='Offer' />
+                                        @break
+
+                                        @case(6)
+                                        <img src="{{ url('/') }}/public/assets/images/icon/custom.svg"
+                                            alt='Custom Payment' width='15' height='15' title='Custom' />
+                                        @break
+
+                                        @case(7)
+                                        <img src="{{ url('/') }}/public/assets/images/icon/my-account.svg"
+                                            alt='My Account' width='15' height='15' title='My Account' />
+                                        @break
+
+                                        @case(8)
+                                        <img src="{{ url('/') }}/public/assets/images/icon/av-to-ts.svg"
+                                            alt='AV To TS' width='15' height='15' title='AV To TS' />
+                                        @break
+
+                                        @case(9)
+                                        <img src="{{ url('/') }}/public/assets/images/icon/upgrade.svg"
+                                            alt='UPGRADE' width='15' height='15' title='UPGRADE' />
+                                        @break
+
+                                        @case(10)
+                                        Mobile Security
+                                        @break
+
+                                        @case(11)
+                                        Manually
+                                        @break
+
+                                        @case(12)
+                                        PAY EDITION UPGRADE <img
+                                            src="{{ url('./public/assets/images/icon/pay_sdition_upgrade.jpg') }}"
+                                            alt='UPGRADE' width='28' height='17'
+                                            title='PAY EDITION UPGRADE' />
+                                        @break
+
+                                        @case(13)
+                                        <img src="{{ url('/') }}/public/assets/images/icon/location.png"
+                                            alt='Track mee' width='15' height='15' title='Track mee' />
+                                        @break
+
+                                        @default
+                                        Invalid Order Type
+                                        @endswitch
+                                    </td>
+                                    <td>{{ $order->ORDERCOUNT }}</td>
+                                    <td>{{ $order->CHECKOUTCOUNT }}</td>
+                                    <td>{{ $order->ORDERCOUNTSUCCESS }}</td>
+                                    @php
+                                    $TodayORDERCOUNT = $TodayORDERCOUNT + $order->ORDERCOUNT;
+                                    $TotalCheckOutCount = $TotalCheckOutCount + $order->CHECKOUTCOUNT;
+                                    $TodayORDERCOUNTSUCCESS =
+                                    $TodayORDERCOUNTSUCCESS + $order->ORDERCOUNTSUCCESS;
+                                    @endphp
+                                </tr>
+                                @endforeach
+                                <tr>
+                                    <td style="text-align:center;"> <b> Total</b></td>
+                                    <td> <b>{{ $TodayORDERCOUNT }}</b></td>
+                                    <td><b>{{ $TotalCheckOutCount }}</b></td>
+                                    <td><b> {{ $TodayORDERCOUNTSUCCESS }}</b></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-columns mt-2">
+                    <div class="card border-primary">
+                        <h5 class="text-center " id="KeyStockLive"
+                            style="background-color:#ffdab9; height:40px; cursor:pointer;">
+                            <div class="mt-2"> Key Stock <span> [Live]</span> </div>
+                        </h5>
+                        <div class="card-body">
+                            {{-- <table width="100%" class="table table-sm">
+                            <tr>
+                                <td><b>Edition</b></td>
+                                <td><b>Stock </b></td>
+                            </tr>
+                            @php
+                            $TotalKey = 0;
+                            $EDN = ['AV PRO 1 YR', 'TS 1 YR', 'TS 3 YR'];
+                            @endphp
+                            @foreach ($serial as $KeyStock)
+                            <tr>
+                                @if (in_array(substr($KeyStock->EDN, 3), $EDN))
+                                <td> <strong> {{ substr($KeyStock->EDN, 3) }} </strong></td>
+                            <td>
+                                <strong> {{ $KeyStock->CNT_STK }} </strong>
+                                @php
+                                $TotalKey = $TotalKey + $KeyStock->CNT_STK;
+                                @endphp
+                            </td>
+                            @endif
+                            </tr>
+                            @endforeach
+                            @foreach ($serial as $KeyStock)
+                            <tr>
+                                @if (!in_array(substr($KeyStock->EDN, 3), $EDN))
+                                <td> {{ substr($KeyStock->EDN, 3) }} </td>
+                                <td>
+                                    {{ $KeyStock->CNT_STK }}
+                                    @php $TotalKey=$TotalKey + $KeyStock->CNT_STK; @endphp
+                                </td>
+                                @endif
+                            </tr>
+                            @endforeach
+                            <tr>
+                                <td><b> Total</b></td>
+                                <td><b>{{ $TotalKey }}</b></td>
+                            </tr>
+                            </table> --}}
+
+                            <table width="100%" class="table table-sm" id="KeyStockLiveTable">
+                                <tr>
+                                    <td><b>Edition</b></td>
+                                    <td><b>Stock</b></td>
+                                </tr>
+                                @php
+                                $TotalKey = 0;
+                                $EDN = [
+                                'AV PRO 1 YR',
+                                'TS 1 YR',
+                                'TS 3 YR',
+                                'Z SEC 1/3 YR',
+                                'Z SEC 1 YR',
+                                'Z SEC 3 YR',
+                                ];
+                                @endphp
+                                @foreach ($serial as $KeyStock)
+                                @php
+                                $edition = substr($KeyStock->EDN, 3);
+                                $isHighlighted = in_array($edition, $EDN);
+                                $TotalKey += $KeyStock->CNT_STK; // Update total count
+                                @endphp
+                                <tr
+                                    style="{{ $isHighlighted ? 'background-color: #e6bdff;font-weight: 600;' : '' }}">
+                                    <td>{{ $edition }}</td>
+                                    <td>{{ $KeyStock->CNT_STK }}</td>
+                                </tr>
+                                @endforeach
+                                <tr>
+                                    <td><b>Total</b></td>
+                                    <td><b>{{ $TotalKey }}</b></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="card-columns mt-2">
+                    <div class="card border-primary">
+                        <h5 class="text-center " id="OrderSummeryYesterday"
+                            style="background-color:#ffdab9; height:40px; cursor:pointer;">
+                            <div class="mt-2"> Order Summery
+                                <span> [Yesterday]</span>
+                            </div>
+                        </h5>
+                        <div class="card-body">
+                            <table width="100%" class="table table-sm">
+                                <tr>
+                                    <td>
+                                    </td>
+                                    <td>
+                                        <strong> Hitcount</strong>
+                                    </td>
+                                    <td>
+                                        <strong> Checkout count </strong>
+                                    </td>
+                                    <td>
+                                        <strong> Purchased </strong>
+                                    </td>
+                                </tr>
+                                @php
+                                $YesterdayORDERCOUNT = 0;
+                                $YesterdayCHECKCOUNT = 0;
+                                $YesterdayORDERCOUNTSUCCESS = 0;
+                                @endphp
+                                @foreach ($OrderSummeryYesterday as $order)
+                                <tr>
+                                    <td>
+                                        {{ $order->ORDERTYPENAME }}
+                                        @switch($order->ORDERTYPE)
+                                        @case(0)
+                                        <img src="{{ url('/') }}/public/assets/images/icon/eu.svg"
+                                            alt='Online' width='15' height='15' title='Online' />
+                                        @break
+
+                                        @case(1)
+                                        <img src="{{ url('/') }}/public/assets/images/icon/DP.svg"
+                                            alt='Dealer Portal' width='15' height='15' title='Portal' />
+                                        @break
+
+                                        @case(2)
+                                        <img src="{{ url('/') }}/public/assets/images/icon/dukan.svg"
+                                            alt='NPAV Dukan' width='15' height='15' title='Dukan' />
+                                        @break
+
+                                        @case(3)
+                                        <img src="{{ url('/') }}/public/assets/images/icon/rw.svg"
+                                            alt='Renewal wizard' width='15' height='15'
+                                            title='BuyNowExe' />
+                                        @break
+
+                                        @case(4)
+                                        <img src="{{ url('/') }}/public/assets/images/icon/renewal.svg"
+                                            alt='NPAV Renewal' width='15' height='15' title='Renewal' />
+                                        @break
+
+                                        @case(5)
+                                        <img src="{{ url('/') }}/public/assets/images/icon/offer.svg"
+                                            alt='Offer' width='15' height='15' title='Offer' />
+                                        @break
+
+                                        @case(6)
+                                        <img src="{{ url('/') }}/public/assets/images/icon/custom.svg"
+                                            alt='Custom Payment' width='15' height='15' title='Custom' />
+                                        @break
+
+                                        @case(7)
+                                        <img src="{{ url('/') }}/public/assets/images/icon/my-account.svg"
+                                            alt='My Account' width='15' height='15' title='My Account' />
+                                        @break
+
+                                        @case(8)
+                                        <img src="{{ url('/') }}/public/assets/images/icon/av-to-ts.svg"
+                                            alt='AV To TS' width='15' height='15' title='AV To TS' />
+                                        @break
+
+                                        @case(9)
+                                        <img src="{{ url('/') }}/public/assets/images/icon/upgrade.svg"
+                                            alt='UPGRADE' width='15' height='15' title='UPGRADE' />
+                                        @break
+
+                                        @case(10)
+                                        Mobile Security
+                                        @break
+
+                                        @case(11)
+                                        @break
+
+                                        @case(12)
+                                        PAY EDITION UPGRADE <img
+                                            src="{{ url('./public/assets/images/icon/pay_sdition_upgrade.jpg') }}"
+                                            alt='UPGRADE' width='28' height='17'
+                                            title='PAY EDITION UPGRADE' />
+                                        {{-- EDITION UPGRADE L to E <img
+                                                    src="{{ url('/') }}/public/assets/images/icon/upgradeEdition.png" alt='UPGRADE'
+                                        width='15' height='15' title='UPGRADE' /> --}}
+                                        @break
+
+                                        @case(13)
+                                        <img src="{{ url('/') }}/public/assets/images/icon/location.png"
+                                            alt='Track mee' width='15' height='15' title='TRACK MEE' />
+                                        @break
+
+                                        @default
+                                        Invalid Order Type
+                                        @endswitch
+                                    </td>
+                                    <td>{{ $order->ORDERCOUNT }}</td>
+                                    <td>{{ $order->CHECKOUTCOUNT }}</td>
+                                    <td>{{ $order->ORDERCOUNTSUCCESS }}</td>
+                                    @php
+                                    $YesterdayORDERCOUNT = $YesterdayORDERCOUNT + $order->ORDERCOUNT;
+                                    $YesterdayCHECKCOUNT += $order->CHECKOUTCOUNT;
+                                    $YesterdayORDERCOUNTSUCCESS =
+                                    $YesterdayORDERCOUNTSUCCESS + $order->ORDERCOUNTSUCCESS;
+                                    @endphp
+                                </tr>
+                                @endforeach
+                                <tr>
+                                    <td style="text-align:center;"> <b> Total</b></td>
+                                    <td> <b>{{ $YesterdayORDERCOUNT }}</b></td>
+                                    <td><b>{{ $YesterdayCHECKCOUNT }}</b></td>
+                                    <td><b> {{ $YesterdayORDERCOUNTSUCCESS }}</b></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="card-columns mt-2">
+                    <div class="card border-primary">
+                        <h5 class="text-center " id="KeyNotSent"
+                            style="background-color:#ffdab9; height:40px; cursor:pointer;">
+                            <div class="mt-2"> Key Not Sent <span> [Last 15 Days]</span>
+                            </div>
+                        </h5>
+                        <div class="card-body">
+                            <table width="100%" class="table table-sm">
+                                <tr>
+                                    <td>
+                                    </td>
+                                    <td>
+                                        <strong> Date </strong>
+                                    </td>
+                                    <td>
+                                        <strong> Count </strong>
+                                    </td>
+                                    <td></td>
+
+                                </tr>
+                                <tr>
+                                    <td>
+                                    </td>
+                                    <td>
+                                        {{ date('d-m-Y', strtotime('-15 days')) }} TO
+                                        {{ date('d-m-Y', strtotime('0 days')) }}
+                                    </td>
+                                    <td>
+
+                                        <span class="fw-bold" id="KeyNotSentCount">0</span>
+                                    </td>
+
+                                    <td>
+                                        <button id="keynotsendorderno"
+                                            class="btn btn-primary btn-sm keynotsendorderno" data-toggle="modal"
+                                            data-target="#keynotsendModal" style="display: none">view</button>
+                                    </td>
+
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-columns mt-2">
+                    <div class="card border-primary">
+                        <div class="accordion accordion-flush" id="accordionFlushExample">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" style="background-color:#ffdab9 !important;">
+                                    <button style="background-color: #ffdab9;    height: 40px;"
+                                        class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#flush-collapseOne" aria-expanded="false"
+                                        aria-controls="flush-collapseOne">
+                                        <h5 class="text-center " id="UnactivatedKeys" style="  cursor:pointer">
+                                            <div class="">Unactivated Keys <span> [Live]</span></div>
+                                        </h5>
+                                    </button>
+                                </h2>
+                                <div id="flush-collapseOne" class="accordion-collapse collapse"
+                                    data-bs-parent="#accordionFlushExample">
+                                    <div id="UnActivatedKeys">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-columns mt-2 ">
+                    <div class="card border-primary">
+                        <div class="accordion accordion-flush" id="accordionFlushExample">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" style="background-color:#ffdab9 !important;">
+                                    <button style="background-color: #ffdab9;    height: 40px;"
+                                        class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#flush-collapseTWO" aria-expanded="false"
+                                        aria-controls="flush-collapseOne">
+                                        <h5 class="text-center " id="KeyActStatus" style="  cursor:pointer;">
+                                            <div class="">Key Act Status
+                                                <span>
+                                                    [Live]</span>
+                                            </div>
+                                        </h5>
+                                    </button>
+                                </h2>
+                                <div id="flush-collapseTWO" class="accordion-collapse collapse"
+                                    data-bs-parent="#accordionFlushExample">
+                                    <div id="KeyStatus"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- END MAIN-CONTENT -->
+@stop
+@section('scripts')
+
+
+
+
+@stop
