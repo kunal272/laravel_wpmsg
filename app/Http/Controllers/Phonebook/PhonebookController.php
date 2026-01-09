@@ -463,7 +463,7 @@ class PhonebookController extends Controller
                     ->table('phonebooks')
                     ->where('id', $request->id)->first();
                 ActionHelper::saveAction(
-                    "Phonebook deleted successfully...",
+                    "Phonebook updated successfully...",
                     $phonebookInfo->name,
                     Auth::user()->id
                 );

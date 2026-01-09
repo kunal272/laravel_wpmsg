@@ -16,12 +16,14 @@
                 <td>{{ $row->total_numbers }}</td>
                 <td>{{ date('Y-m-d H:i:s', strtotime($row->created_at)) }}</td>
                 <td>
-                    <button type="button" data-id="{{ $row->id }}" class="btn btn-sm btn-info viewPhonebook" title="View"><i
-                            class="fa-solid fa-eye"></i></button>
-                    <button type="button" data-id="{{ $row->id }}" class="btn btn-sm btn-success editPhonebook"
-                        title="Edit"><i class="fa-solid fa-pen-to-square" title="Edit"></i></button>
-                    <button type="button" data-id="{{ $row->id }}" class="btn btn-sm btn-danger deletePhonebook"
-                        title="Delete"><i class="fa-solid fa-trash"></i></button>
+                    <button type="button" data-id="{{ $row->id }}" class="btn badge-light-info f-w-500 viewPhonebook"
+                        title="View"><i class="fa-solid fa-eye"></i></button>
+                    <button type="button" data-id="{{ $row->id }}"
+                        class="btn badge-light-success f-w-500 editPhonebook" title="Edit"><i
+                            class="fa-solid fa-pen-to-square" title="Edit"></i></button>
+                    <button type="button" data-id="{{ $row->id }}"
+                        class="btn badge-light-danger f-w-500 deletePhonebook" title="Delete"><i
+                            class="fa-solid fa-trash"></i></button>
                 </td>
             </tr>
         @endforeach

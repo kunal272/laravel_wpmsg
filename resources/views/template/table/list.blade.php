@@ -18,13 +18,13 @@
                 <td class="text-start">{{ $row->message }}</td>
                 <td>{{ date('Y-m-d H:i:s', strtotime($row->created_at)) }}</td>
                 <td>
-                    <button type="button" data-id="{{ $row->id }}" class="btn btn-sm btn-success editTemplate"
-                        title="Edit">
+                    <button type="button" data-id="{{ $row->id }}"
+                        class="btn badge-light-success f-w-500 editTemplate" title="Edit">
                         <i class="fa-solid fa-pen-to-square"></i>
                     </button>
 
-                    <button type="button" data-id="{{ $row->id }}" class="btn btn-sm btn-danger deleteTemplate"
-                        title="Delete">
+                    <button type="button" data-id="{{ $row->id }}"
+                        class="btn badge-light-danger f-w-500 deleteTemplate" title="Delete">
                         <i class="fa-solid fa-trash"></i>
                     </button>
                 </td>
