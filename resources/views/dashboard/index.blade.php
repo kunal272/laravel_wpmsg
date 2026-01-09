@@ -162,6 +162,14 @@
                 margin-bottom: 20px;
             }
         }
+
+        .card {
+            border-radius: 18px;
+        }
+
+        .card-header {
+            border-bottom: 1px solid #f1f1f1;
+        }
     </style>
 @stop
 
@@ -183,156 +191,87 @@
 
         </div>
         <div class="container-fluid default-dashboard">
-            <div class="row  mt-2">
-                <div class="col-4  mt-2">
-                    <div class="card-columns">
-                        <div class="card border-primary">
-                            <h5 class="text-center" id="SourceTemproryToday"
-                                style="background-color:#97dfdb; height:40px;cursor:pointer;">
-                                <div class="mt-2">Source Temprory
-                                    <span> [Today Only] </span>
-                                </div>
-                            </h5>
+            <!-- STATS -->
+            <div class="row g-3 mt-2">
 
-
-                            <div class="card-body" id="SourceContainer">
-                                <p class="text-center text-muted">Loading...</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-columns  mt-2">
-                        <div class="card border-primary">
-                            <h5 class="text-center " id="ProductSummeryToday"
-                                style="background-color:#97dfdb; height:40px; cursor:pointer">
-                                <div class="mt-2"> Product Summery
-                                    <span> [Today] </span>
-                                </div>
-                            </h5>
-                            <div class="card-body" id="ProductContainer">
-                                <p class="text-center text-muted">Loading...</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-columns mt-2">
-                        <div class="card border-primary">
-                            <h5 class="text-center " id="OrderSummerylastTenDays"
-                                style="background-color:#97dfdb; height:40px; cursor:pointer;">
-                                <div class="mt-2"> Order Summery
-                                    <span> [Last 10 Days]</span>
-                                </div>
-                            </h5>
-                            <div class="card-body" id="OrderTenDays">
-                                <p class="text-center text-muted">Loading...</p>
-                            </div>
+                <div class="col-md-3">
+                    <div class="card shadow-sm border-0 text-center">
+                        <div class="card-body">
+                            <i class="fa-solid fa-mobile fa-2x text-primary"></i>
+                            <h6 class="mt-2">Total Devices</h6>
+                            <h4>{{ $totalDevices }}</h4>
                         </div>
                     </div>
                 </div>
-                <div class="col-4">
-                    <div class="card-columns mt-2">
-                        <div class="card border-primary">
-                            <h5 class="text-center " id="OrderSummeryToday"
-                                style="background-color:#97dfdb; height:40px; cursor:pointer">
-                                <div class="mt-2">Order Summery
-                                    <span> [Today]</span>
-                                </div>
-                            </h5>
 
-                            <div class="card-body" id="OrderToday">
-                                <p class="text-center text-muted">Loading...</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-columns mt-2">
-                        <div class="card border-primary">
-                            <h5 class="text-center " id="KeyStockLive"
-                                style="background-color:#97dfdb; height:40px; cursor:pointer;">
-                                <div class="mt-2"> Key Stock <span> [Live]</span> </div>
-                            </h5>
-                            <div class="card-body" id="KeyStockContainer">
-                                <p class="text-center text-muted">Loading...</p>
-                            </div>
+                <div class="col-md-3">
+                    <div class="card shadow-sm border-0 text-center">
+                        <div class="card-body">
+                            <i class="fa-solid fa-wifi fa-2x text-success"></i>
+                            <h6 class="mt-2">Active Devices</h6>
+                            <h4>{{ $activeDevices }}</h4>
                         </div>
                     </div>
                 </div>
-                <div class="col-4">
-                    <div class="card-columns mt-2">
-                        <div class="card border-primary">
-                            <h5 class="text-center " id="OrderSummeryYesterday"
-                                style="background-color:#97dfdb; height:40px; cursor:pointer;">
-                                <div class="mt-2"> Order Summery
-                                    <span> [Yesterday]</span>
-                                </div>
-                            </h5>
-                            <div class="card-body" id="OrderYesteday">
-                                <p class="text-center text-muted">Loading...</p>
-                            </div>
+
+                <div class="col-md-3">
+                    <div class="card shadow-sm border-0 text-center">
+                        <div class="card-body">
+                            <i class="fa-solid fa-book fa-2x text-warning"></i>
+                            <h6 class="mt-2">Phonebooks</h6>
+                            <h4>{{ $phonebooks }}</h4>
                         </div>
                     </div>
-
-
-                    <div class="card-columns mt-2">
-                        <div class="card border-primary">
-                            <h5 class="text-center " id="KeyNotSent"
-                                style="background-color:#97dfdb; height:40px; cursor:pointer;">
-                                <div class="mt-2"> Key Not Sent <span> [Last 15 Days]</span>
-                                </div>
-                            </h5>
-                            <div class="card-body" id="KeyNotSend">
-                                <p class="text-center text-muted">Loading...</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-columns mt-2">
-                        <div class="card border-primary shadow-sm accordion-card">
-                            <div class="accordion accordion-flush" id="accordionFlushExample1">
-                                <div class="accordion-item">
-                                    <h2 class="accordion-header">
-                                        <button class="accordion-button collapsed accordion-header-btn" type="button"
-                                            data-bs-toggle="collapse" data-bs-target="#flush-collapseOne"
-                                            aria-expanded="false" aria-controls="flush-collapseOne">
-                                            <h5 class="accordion-title mb-0">
-                                                Unactivated Keys <span class="live-tag text-success">[Live]</span>
-                                            </h5>
-                                        </button>
-                                    </h2>
-                                    <div id="flush-collapseOne" class="accordion-collapse collapse"
-                                        data-bs-parent="#accordionFlushExample1">
-                                        <div id="UnActivatedKeys" class="accordion-body p-3">
-                                            <!-- Dynamic content goes here -->
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card-columns mt-2">
-                        <div class="card border-primary shadow-sm accordion-card">
-                            <div class="accordion accordion-flush" id="accordionFlushExample2">
-                                <div class="accordion-item">
-                                    <h2 class="accordion-header">
-                                        <button class="accordion-button collapsed accordion-header-btn" type="button"
-                                            data-bs-toggle="collapse" data-bs-target="#flush-collapseTWO"
-                                            aria-expanded="false" aria-controls="flush-collapseTWO">
-                                            <h5 class="accordion-title mb-0">
-                                                Key Act Status <span class="live-tag text-success">[Live]</span>
-                                            </h5>
-                                        </button>
-                                    </h2>
-                                    <div id="flush-collapseTWO" class="accordion-collapse collapse"
-                                        data-bs-parent="#accordionFlushExample2">
-                                        <div id="KeyStatus" class="accordion-body p-3">
-                                            <!-- Dynamic content goes here -->
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
                 </div>
+
+                <div class="col-md-3">
+                    <div class="card shadow-sm border-0 text-center">
+                        <div class="card-body">
+                            <i class="fa-solid fa-paper-plane fa-2x text-danger"></i>
+                            <h6 class="mt-2">Messages Today</h6>
+                            <h4>{{ $todayMessages }}</h4>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- QUICK ACTIONS -->
+            <div class="row mt-4">
+
+
+
+                <div class="col-md-6">
+                    <div class="card shadow-sm border-0">
+                        <div class="card-header fw-bold">
+                            Quick Actions
+                        </div>
+                        <div class="card-body d-flex gap-2">
+                            <a href="{{ url('/sendmessage') }}" class="btn btn-primary"><i
+                                    class="fa-solid fa-paper-plane text-primary me-2"></i> Send Message</a>
+                            <a href="{{ url('/phonebook') }}" class="btn btn-outline-secondary"><i
+                                    class="fa-solid fa-book text-success me-2"></i>Phonebook</a>
+                            <a href="{{ url('/templates') }}" class="btn btn-outline-success"><i
+                                    class="fa-solid fa-message text-warning me-2"></i> Templates</a>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
+
+
+
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-white fw-bold">
+                Message Analytics
+            </div>
+
+            <div class="card-body">
+                <canvas id="msgChart" height="50"></canvas>
+            </div>
+        </div>
+
 
     </div>
     <!-- END MAIN-CONTENT -->
@@ -340,7 +279,7 @@
 @section('scripts')
 
 
-    <script src="{{ url('/public/assets/js/custom/dashboard.js') }}"></script>
+    {{-- <script src="{{ url('/public/assets/js/custom/dashboard.js') }}"></script> --}}
 
     {{-- ✅ Toast Message Display --}}
     @if (session('success'))
@@ -358,4 +297,23 @@
             });
         </script>
     @endif
+
+
+
+    <script>
+        new Chart(document.getElementById('msgChart'), {
+            type: 'line',
+            data: {
+                labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                datasets: [{
+                    label: 'Messages',
+                    data: [10, 20, 30, 40, 5, 7, 10],
+                    fill: true,
+                    tension: 0.4,
+                    borderWidth: 2
+                }]
+            }
+        });
+    </script>
+
 @stop

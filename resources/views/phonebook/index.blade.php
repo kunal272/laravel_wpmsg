@@ -80,7 +80,7 @@
                                             </label>
                                             {{-- <label for="file" class="form-label fw-bold">Upload CSV / XLSX
                                                 :</label> --}}
-                                            <input type="file" name="file" class="form-control" required>
+                                            <input type="file" name="file" class="form-control" accept=".csv, .xls, .xlsx" required>
                                         </div>
                                     </div>
                                     <div class="modal-footer">

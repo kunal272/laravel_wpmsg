@@ -21,11 +21,11 @@ $(document).ready(function () {
             beforeSend: function () {
                 $(".loader-wrapper").removeClass("d-none");
             },
-            success: function (res) {
-                if (res.error) {
-                    Swal.fire('Error', res.error, 'error');
+            success: function (data) {
+                if (data.hasOwnProperty("error")) {
+                    Swal.fire('Error', data.error, 'error');
                 } else {
-                    Swal.fire('Success', res.success, 'success');
+                    Swal.fire('Success', data.success, 'success');
                     $('#sendMessageForm')[0].reset();
                 }
             },

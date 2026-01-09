@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Http;
+use App\Helper\ActionHelper;
 
 class DeviceController extends Controller
 {
@@ -62,6 +63,17 @@ class DeviceController extends Controller
                     'status'        => 'OFFLINE'
                 ]);
 
+            try {
+                ActionHelper::saveAction(
+                    'New Device is added...',
+                    $request->device_name,
+                    Auth::user()->id
+                );
+            } catch (\Exception $e) {
+                info($e->getMessage());
+                return response()->json(['error' => substr($e->getMessage(), 0, 126)]);
+            }
+
             return response()->json(['success' => 'Device added successfully']);
         } catch (\Exception $e) {
             info('Error at DeviceController getData :' . $e->getMessage());
@@ -81,6 +93,21 @@ class DeviceController extends Controller
             $response = Http::withHeaders([
                 'x-api-key' => env('NODE_API_KEY')
             ])->get("http://127.0.0.1:3001/api/whatsapp/qr/$id");
+
+            try {
+
+                $deviceInfo = DB::connection('mysql')
+                    ->table('whatsapp_devices')
+                    ->where('id', $id)->first();
+                ActionHelper::saveAction(
+                    "Device is scanned...",
+                    $deviceInfo->device_name,
+                    Auth::user()->id
+                );
+            } catch (\Exception $e) {
+                info($e->getMessage());
+                return response()->json(['error' => substr($e->getMessage(), 0, 126)]);
+            }
 
             return response()->json($response->json());
         } catch (\Exception $e) {
@@ -119,6 +146,20 @@ class DeviceController extends Controller
                         'status'     => 'ONLINE',
                         'updated_at' => now()
                     ]);
+
+                try {
+                    $deviceInfo = DB::connection('mysql')
+                        ->table('whatsapp_devices')
+                        ->where('id', $deviceId)->first();
+                    ActionHelper::saveAction(
+                        "Device is ready...",
+                        $deviceInfo->device_name,
+                        Auth::user()->id
+                    );
+                } catch (\Exception $e) {
+                    info($e->getMessage());
+                    return response()->json(['error' => substr($e->getMessage(), 0, 126)]);
+                }
             }
             return response()->json([
                 'success'   => true,
@@ -162,6 +203,20 @@ class DeviceController extends Controller
                         'status' => 'DISCONNECTED',
                         'updated_at' => now()
                     ]);
+
+                try {
+                    $deviceInfo = DB::connection('mysql')
+                        ->table('whatsapp_devices')
+                        ->where('id', $deviceId)->first();
+                    ActionHelper::saveAction(
+                        "Device is logout successfully...",
+                        $deviceInfo->device_name,
+                        Auth::user()->id
+                    );
+                } catch (\Exception $e) {
+                    info($e->getMessage());
+                    return response()->json(['error' => substr($e->getMessage(), 0, 126)]);
+                }
             }
 
             // Node error

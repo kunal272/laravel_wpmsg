@@ -31,7 +31,7 @@
                                 <img src="{{ url('/public/assets/images/wp/xls.png') }}" height="24">
                             </a>
                         </label>
-                        <input type="file" name="file" class="form-control">
+                        <input type="file" name="file" class="form-control" accept=".csv, .xls, .xlsx">
                         <small class="text-muted">
                             Leave empty if you don't want to change file
                         </small>

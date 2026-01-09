@@ -12,4 +12,4 @@ Route::get('/user', function (Request $request) {
 //Action Api
 Route::post('/saveAction', [ActionController::class, 'saveAction']);
 
-Route::post('/saveAction', [EmailController::class, 'saveAction']);
+// Route::post('/saveAction', [EmailController::class, 'saveAction']);

@@ -13,7 +13,15 @@ class DashboardController extends Controller
 
     public function dashboard()
     {
-        return view('dashboard.index');
+        return view('dashboard.index', [
+            'totalDevices'   => DB::table('whatsapp_devices')->count(),
+            'activeDevices'  => DB::table('whatsapp_devices')->where('status', 'ONLINE')->count(),
+            'phonebooks'     => DB::table('phonebooks')->count(),
+            'contacts'       => DB::table('phonebook_contacts')->count(),
+            'todayMessages'  => DB::table('whatsapp_logs')
+                ->whereDate('created_at', today())
+                ->count()
+        ]);
     }
 
     public function loadTable(Request $request)
