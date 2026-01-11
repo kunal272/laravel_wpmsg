@@ -47,11 +47,24 @@ class DeviceController extends Controller
     {
         try {
             // dd($request->all());
-            $request->validate([
-                'device_name'   => 'required',
-                'mobile_number' => 'required|digits:10',
-                'webhook_url'   => 'nullable|url'
-            ]);
+            $validator = Validator::make(
+                $request->all(),
+                [
+                    'device_name'   => 'required',
+                    'mobile_number' => 'required|digits:10',
+                    'webhook_url'   => 'nullable|url',
+                ],
+                [
+                    'device_name.required' => 'Device name is required.',
+                    'mobile_number.required' => 'Mobile number is required.',
+                    'mobile_number.digits' => 'Mobile number must be exactly 10 digits.',
+                    'webhook_url.url' => 'Webhook URL must be a valid URL.',
+                ]
+            );
+
+            if ($validator->fails()) {
+                return response()->json(['error'  => $validator->errors()->first()]);
+            }
 
             DB::connection('mysql')
                 ->table('whatsapp_devices')->insert([
@@ -76,7 +89,7 @@ class DeviceController extends Controller
 
             return response()->json(['success' => 'Device added successfully']);
         } catch (\Exception $e) {
-            info('Error at DeviceController getData :' . $e->getMessage());
+            info('Error at DeviceController addDevice :' . $e->getMessage());
             if (in_array($_SERVER['REMOTE_ADDR'], config()->get('constant.Setting.AdminIpList'))) {
                 return response()->json(['error' => substr($e->getMessage(), 0, 126), 'string' => $e->__toString()]);
             } else {
@@ -141,7 +154,7 @@ class DeviceController extends Controller
             if ($data['is_ready']) {
                 DB::connection('mysql')
                     ->table('whatsapp_devices')
-                    ->where('user_id', $deviceId)
+                    ->where('id', $deviceId)
                     ->update([
                         'status'     => 'ONLINE',
                         'updated_at' => now()

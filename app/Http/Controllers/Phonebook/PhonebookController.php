@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Auth;
 use App\Helper\ActionHelper;
+use Illuminate\Support\Facades\File;
 
 class PhonebookController extends Controller
 {
@@ -47,9 +48,120 @@ class PhonebookController extends Controller
     /**
      * Store Phonebook + CSV/XLSX (POST)
      */
+    //     public function add(Request $request)
+    //     {
+    //         // dd($request->all());
+    //         $validator = Validator::make(
+    //             $request->all(),
+    //             [
+    //                 'phonebook_name' => 'required|string|max:150',
+    //                 'file' => 'required|file|mimetypes:text/csv,text/plain,application/vnd.ms-excel'
+    //             ],
+    //             [
+    //                 'phonebook_name.required' => 'Phonebook name is required',
+    //                 'phonebook_name.max'      => 'Phonebook name must not exceed 150 characters',
+    //                 'file.required'           => 'Please upload a CSV or Excel file',
+    //                 'file.mimetypes'          => 'Only CSV or XLSX files are allowed'
+    //             ]
+    //         );
+
+    //         if ($validator->fails()) {
+    //             return response()->json(['error' => $validator->errors()->first()]);
+    //         }
+
+    //         DB::beginTransaction();
+
+    //         try {
+    //             $phonebookId = DB::table('phonebooks')->insertGetId([
+    //                 'user_id' => Auth::id(),
+    //                 'name' => $request->phonebook_name,
+    //                 'total_numbers' => 0,
+    //                 'created_at' => now()
+    //             ]);
+    // //  dd($request->all());
+    //             $rows = Excel::toArray([], $request->file('file'))[0];
+
+    //             if (count($rows) < 2) {
+    //                 return response()->json(['error' => 'File is empty']);
+    //             }
+
+    //             /* ================= HEADER VALIDATION ================= */
+    //             $header = array_map('strtolower', array_map('trim', $rows[0]));
+
+    //             if ($header[0] !== 'name' || $header[1] !== 'mobile') {
+    //                 return response()->json([
+    //                     'error' => 'Invalid file format. First column must be "name" and second column must be "mobile".'
+    //                 ]);
+    //             }
+
+    //             /* ================= ROW VALIDATION ================= */
+    //             $count = 0;
+
+    //             foreach ($rows as $index => $row) {
+
+    //                 if ($index === 0) continue; // skip header
+
+    //                 $name   = trim($row[0] ?? '');
+    //                 $mobile = preg_replace('/\D/', '', $row[1] ?? '');
+
+    //                 if ($name === '' || $mobile === '') {
+    //                     continue; // skip empty rows
+    //                 }
+
+    //                 if (!preg_match('/^[6-9]\d{9}$/', $mobile)) {
+    //                     continue; // invalid Indian mobile
+    //                 }
+
+    //                 DB::table('phonebook_contacts')->insert([
+    //                     'phonebook_id' => $phonebookId,
+    //                     'name' => $name,
+    //                     'mobile' => $mobile,
+    //                     'created_at' => now()
+    //                 ]);
+
+    //                 $count++;
+    //             }
+
+    //             if ($count === 0) {
+    //                 DB::rollBack();
+    //                 return response()->json(['error' => 'No valid contacts found in file']);
+    //             }
+
+    //             DB::table('phonebooks')
+    //                 ->where('id', $phonebookId)
+    //                 ->update(['total_numbers' => $count]);
+
+    //             DB::commit();
+
+    //             try {
+    //                 $phonebookInfo = DB::connection('mysql')
+    //                     ->table('phonebooks')
+    //                     ->where('id', $phonebookId)->first();
+    //                 ActionHelper::saveAction(
+    //                     "Phonebook added successfully...",
+    //                     $phonebookInfo->name,
+    //                     Auth::user()->id
+    //                 );
+    //             } catch (\Exception $e) {
+    //                 info($e->getMessage());
+    //                 return response()->json(['error' => substr($e->getMessage(), 0, 126)]);
+    //             }
+
+    //             return response()->json(['success' => 'Phonebook added successfully']);
+    //         } catch (\Exception $e) {
+    //             info('Error at DeviceController getData :' . $e->getMessage());
+    //             DB::rollBack();
+    //             if (in_array($_SERVER['REMOTE_ADDR'], config()->get('constant.Setting.AdminIpList'))) {
+    //                 return response()->json(['error' => substr($e->getMessage(), 0, 126), 'string' => $e->__toString()]);
+    //             } else {
+    //                 return response()->json(['error' => "Something went wrong..!"]);
+    //             }
+    //         }
+    //     }
+
+
     public function add(Request $request)
     {
-        // dd($request->all());
         $validator = Validator::make(
             $request->all(),
             [
@@ -71,6 +183,15 @@ class PhonebookController extends Controller
         DB::beginTransaction();
 
         try {
+
+            /* ================= ENSURE EXCEL TEMP FOLDER EXISTS ================= */
+            $excelTempPath = storage_path('framework/laravel-excel');
+
+            if (!File::exists($excelTempPath)) {
+                File::makeDirectory($excelTempPath, 0755, true);
+            }
+            /* =================================================================== */
+
             $phonebookId = DB::table('phonebooks')->insertGetId([
                 'user_id' => Auth::id(),
                 'name' => $request->phonebook_name,
@@ -78,6 +199,7 @@ class PhonebookController extends Controller
                 'created_at' => now()
             ]);
 
+            // Read Excel / CSV
             $rows = Excel::toArray([], $request->file('file'))[0];
 
             if (count($rows) < 2) {
@@ -98,17 +220,17 @@ class PhonebookController extends Controller
 
             foreach ($rows as $index => $row) {
 
-                if ($index === 0) continue; // skip header
+                if ($index === 0) continue;
 
                 $name   = trim($row[0] ?? '');
                 $mobile = preg_replace('/\D/', '', $row[1] ?? '');
 
                 if ($name === '' || $mobile === '') {
-                    continue; // skip empty rows
+                    continue;
                 }
 
                 if (!preg_match('/^[6-9]\d{9}$/', $mobile)) {
-                    continue; // invalid Indian mobile
+                    continue;
                 }
 
                 DB::table('phonebook_contacts')->insert([
@@ -133,9 +255,9 @@ class PhonebookController extends Controller
             DB::commit();
 
             try {
-                $phonebookInfo = DB::connection('mysql')
-                    ->table('phonebooks')
+                $phonebookInfo = DB::table('phonebooks')
                     ->where('id', $phonebookId)->first();
+
                 ActionHelper::saveAction(
                     "Phonebook added successfully...",
                     $phonebookInfo->name,
@@ -143,20 +265,25 @@ class PhonebookController extends Controller
                 );
             } catch (\Exception $e) {
                 info($e->getMessage());
-                return response()->json(['error' => substr($e->getMessage(), 0, 126)]);
             }
 
             return response()->json(['success' => 'Phonebook added successfully']);
         } catch (\Exception $e) {
-            info('Error at DeviceController getData :' . $e->getMessage());
+
             DB::rollBack();
+            info('Error at DeviceController add :' . $e->getMessage());
+
             if (in_array($_SERVER['REMOTE_ADDR'], config()->get('constant.Setting.AdminIpList'))) {
-                return response()->json(['error' => substr($e->getMessage(), 0, 126), 'string' => $e->__toString()]);
-            } else {
-                return response()->json(['error' => "Something went wrong..!"]);
+                return response()->json([
+                    'error' => substr($e->getMessage(), 0, 126),
+                    'string' => $e->__toString()
+                ]);
             }
+
+            return response()->json(['error' => 'Something went wrong..!']);
         }
     }
+
 
     /**
      * View Contacts (GET)
@@ -254,6 +381,7 @@ class PhonebookController extends Controller
 
             return view('phonebook.modal.editPhoneBook', compact('phonebook'));
         } catch (\Exception $e) {
+
             info('Error at phonebookController edit :' . $e->getMessage());
 
             if (in_array($_SERVER['REMOTE_ADDR'], config()->get('constant.Setting.AdminIpList'))) {

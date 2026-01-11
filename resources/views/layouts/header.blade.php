@@ -172,7 +172,7 @@
                                             <h6>Rick Novak</h6>
                                         </div>
                                         <div class="flex-shrink-0"> <img class="b-r-15 img-40"
-                                                src="javascript:void(0)" alt=""></div>
+                                                src="{{ url('/public/assets/images/icon/profile.png') }}" alt=""></div>
                                     </li>
                                     <li class="d-flex align-items-center b-l-secondary">
                                         <div class="flex-grow-1"> <span>12:47 am</span><a href="javascript:void(0)">
@@ -181,7 +181,7 @@
                                             <h6>Susan Connor</h6>
                                         </div>
                                         <div class="flex-shrink-0"> <img class="b-r-15 img-40"
-                                                src="javascript:void(0)" alt=""></div>
+                                                src="{{ url('/public/assets/images/icon/profile.png') }}" alt=""></div>
                                     </li>
                                     <li class="d-flex align-items-center b-l-tertiary">
                                         <div class="flex-grow-1"> <span>06:10 pm</span><a href="javascript:void(0)">
@@ -190,7 +190,7 @@
                                             <h6>Roger Lum</h6>
                                         </div>
                                         <div class="flex-shrink-0"> <img class="b-r-15 img-40"
-                                                src="javascript:void(0)" alt=""></div>
+                                                src="{{ url('/public/assets/images/icon/profile.png') }}" alt=""></div>
                                     </li>
                                     <li class="mt-3 d-flex justify-content-center">
                                         <div class="button-group"><a class="btn btn-secondary"

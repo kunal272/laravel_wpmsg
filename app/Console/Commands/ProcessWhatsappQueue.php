@@ -30,13 +30,16 @@ class ProcessWhatsappQueue extends Command
             return;
         }
 
+
+
         foreach ($messages as $msg) {
             try {
 
                 Log::info('Sending WhatsApp Message', [
                     'queue_id' => $msg->id,
                     'device_id' => $msg->device_id,
-                    'mobile' => $msg->mobile
+                    'mobile' => $msg->mobile,
+                    'image_path' => $msg->media
                 ]);
 
                 $response = Http::withHeaders([
@@ -46,8 +49,12 @@ class ProcessWhatsappQueue extends Command
                     ->post(env('WHATSAPP_API_URL') . '/api/whatsapp/send', [
                         'user_id' => $msg->device_id,
                         'number'  => $msg->mobile,
-                        'message' => $msg->message
+                        'message' => $msg->message,
+                        'image_path' => $msg->media
                     ]);
+
+
+
 
                 $responseBody = $response->json();
 

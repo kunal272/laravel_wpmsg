@@ -12,7 +12,10 @@ class SendMessageController extends Controller
 {
     public function index()
     {
-        $devices    = DB::table('whatsapp_devices')->where('user_id', Auth::user()->id)->get();
+        $devices    = DB::table('whatsapp_devices')
+            ->where('user_id', Auth::user()->id)
+            ->where('status' , 'ONLINE')
+            ->get();
         $phonebooks = DB::table('phonebooks')->where('user_id', Auth::user()->id)->get();
         $templates  = DB::table('whatsapp_templates')->where('user_id', Auth::user()->id)->get();
 
@@ -58,10 +61,17 @@ class SendMessageController extends Controller
                 return response()->json(['error' => 'No receiver found']);
             }
 
-            // Upload media
+
             $mediaPath = null;
             if ($request->hasFile('media')) {
-                $mediaPath = $request->file('media')->store('whatsapp-media');
+                $file = $request->file('media');
+                $fileName = $file->getClientOriginalName();
+                // $fileName1 =  "public\whatsapp-media". $file->getClientOriginalName();
+
+
+                // Move file to public/whatsapp-media
+                $fileNameFull = $file->move(public_path('whatsapp-media'), $fileName);
+
             }
 
             foreach ($numbers as $number) {
@@ -69,7 +79,7 @@ class SendMessageController extends Controller
                     'device_id'   => $request->device_id,
                     'mobile'      => trim($number),
                     'message'     => $request->message,
-                    'media'       => $mediaPath,
+                    'media'       => $fileNameFull ?? null,
                     'schedule_at' => $request->schedule_at,
                     'delay'       => $request->delay ?? 0,
                     'status'      => 'pending',

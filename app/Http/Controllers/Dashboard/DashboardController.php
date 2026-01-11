@@ -18,8 +18,9 @@ class DashboardController extends Controller
             'activeDevices'  => DB::table('whatsapp_devices')->where('status', 'ONLINE')->count(),
             'phonebooks'     => DB::table('phonebooks')->count(),
             'contacts'       => DB::table('phonebook_contacts')->count(),
-            'todayMessages'  => DB::table('whatsapp_logs')
-                ->whereDate('created_at', today())
+            'todayMessages'  => DB::table('message_queue')
+                ->whereDate('sent_at', today())
+                ->where('status', '=', 'sent')
                 ->count()
         ]);
     }

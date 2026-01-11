@@ -1,12 +1,28 @@
 $(document).ready(function () {
 
-    // Auto fill message from template
-    $('#templateSelect').change(function () {
+    // Template select → fill message + preview
+    $('#templateSelect').on('change', function () {
         let msg = $(this).val();
         $('#messageBox').val(msg);
+        updatePreview(msg);
     });
 
-    // Submit Send Message
+    // Live typing preview
+    $('#messageBox').on('input', function () {
+        updatePreview($(this).val());
+    });
+
+    function updatePreview(message) {
+        if ($.trim(message) === '') {
+            $('#messagePreview').html(
+                '<span class="preview-placeholder">Message preview will appear here...</span>'
+            );
+        } else {
+            $('#messagePreview').text(message);
+        }
+    }
+
+    // Submit form
     $('#sendMessageForm').submit(function (e) {
         e.preventDefault();
 
@@ -22,18 +38,16 @@ $(document).ready(function () {
                 $(".loader-wrapper").removeClass("d-none");
             },
             success: function (data) {
-                if (data.hasOwnProperty("error")) {
+                if (data.error) {
                     Swal.fire('Error', data.error, 'error');
                 } else {
                     Swal.fire('Success', data.success, 'success');
                     $('#sendMessageForm')[0].reset();
+                    updatePreview('');
                 }
             },
             complete: function () {
                 $(".loader-wrapper").addClass("d-none");
-            },
-            error: function (err) {
-                console.log(err);
             }
         });
     });
