@@ -14,7 +14,7 @@ class SendMessageController extends Controller
     {
         $devices    = DB::table('whatsapp_devices')
             ->where('user_id', Auth::user()->id)
-            ->where('status' , 'ONLINE')
+            ->where('status', 'ONLINE')
             ->get();
         $phonebooks = DB::table('phonebooks')->where('user_id', Auth::user()->id)->get();
         $templates  = DB::table('whatsapp_templates')->where('user_id', Auth::user()->id)->get();
@@ -71,7 +71,6 @@ class SendMessageController extends Controller
 
                 // Move file to public/whatsapp-media
                 $fileNameFull = $file->move(public_path('whatsapp-media'), $fileName);
-
             }
 
             foreach ($numbers as $number) {

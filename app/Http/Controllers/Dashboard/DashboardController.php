@@ -13,6 +13,22 @@ class DashboardController extends Controller
 
     public function dashboard()
     {
+
+        $labels = [];
+        $data = [];
+
+        for ($i = 6; $i >= 0; $i--) {
+            $date = Carbon::today()->subDays($i);
+            $labels[] = $date->format('D'); // Mon, Tue, etc.
+
+            $count = DB::table('message_queue')
+                ->whereDate('sent_at', $date)
+                ->where('status', 'sent')
+                ->count();
+
+            $data[] = $count;
+        }
+
         return view('dashboard.index', [
             'totalDevices'   => DB::table('whatsapp_devices')->count(),
             'activeDevices'  => DB::table('whatsapp_devices')->where('status', 'ONLINE')->count(),
@@ -21,7 +37,9 @@ class DashboardController extends Controller
             'todayMessages'  => DB::table('message_queue')
                 ->whereDate('sent_at', today())
                 ->where('status', '=', 'sent')
-                ->count()
+                ->count(),
+            'labels' => $labels,
+            'data' => $data
         ]);
     }
 

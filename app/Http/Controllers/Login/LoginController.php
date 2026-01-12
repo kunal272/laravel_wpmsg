@@ -56,6 +56,7 @@ class LoginController extends Controller
 
         if ($user_check) {
             if (Auth::guard('web')->attempt($request->only(['username', 'password']))) {
+                $AuthUser = Auth::guard('web')->user();
                 $permission = DB::connection('mysql')
                     ->table('user_permission2')
                     ->where('user_permission2.username', '=', Auth::user()->username)
@@ -68,10 +69,49 @@ class LoginController extends Controller
                     ]);
 
                 Session::put('permission', $permission);
+
+                // Save session entry
+                $this->saveUserSession($request, $AuthUser->id);
                 return redirect("/dashboard")->with("success", "Successfully login.");
             }
         }
         return redirect('/')->with("error", "Please enter the valid username and password");
+    }
+
+    // Helper to save user session
+    private function saveUserSession(Request $request, $userId)
+    {
+        $sessionId = session()->getId();
+        $ipAddress = $request->ip();
+        $userAgent = substr($request->userAgent() ?? 'unknown', 0, 255);
+
+        $existing = DB::table('user_sessions')
+            ->where('user_id', $userId)
+            ->where('ip_address', $ipAddress)
+            ->first();
+
+        if ($existing) {
+            // Update the existing session record
+            DB::table('user_sessions')
+                ->where('id', $existing->id)
+                ->update([
+                    'session_id' => $sessionId,
+                    'user_agent' => $userAgent,
+                    'last_activity' => now(),
+                    'updated_at' => now(),
+                ]);
+        } else {
+            // Insert a new session record
+            DB::table('user_sessions')->insert([
+                'user_id' => $userId,
+                'ip_address' => $ipAddress,
+                'user_agent' => $userAgent,
+                'session_id' => $sessionId,
+                'last_activity' => now(),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        }
     }
 
     public function dashboard()

@@ -7,6 +7,7 @@ use App\Http\Controllers\Device\DeviceController;
 use App\Http\Controllers\Log\ActionLogController;
 use App\Http\Controllers\UserMaster\UserMasterController;
 use App\Http\Controllers\Profile\ProfileController;
+use App\Http\Controllers\Session\SessionController;
 use App\Http\Controllers\Phonebook\PhonebookController;
 use App\Http\Controllers\Template\TemplateController;
 use App\Http\Controllers\SendMessage\SendMessageController;
@@ -19,6 +20,7 @@ use Illuminate\Support\Facades\Auth;
 
 use App\Http\Middleware\checklogin;
 use App\Http\Middleware\CheckLoginPermission;
+use App\Http\Middleware\CheckActiveSession;
 
 ###########################
 Route::get('/login', function () {
@@ -33,7 +35,7 @@ route::any("CheckLogin",                             [LoginController::class, "C
 
 Auth::routes();
 
-Route::middleware([Checklogin::class])->group(function () {
+Route::middleware([Checklogin::class, CheckActiveSession::class])->group(function () {
 
     // Route::middleware([CheckLoginPermission::class])->group(function () {
     // Dashboard Modal
@@ -94,17 +96,13 @@ Route::middleware([Checklogin::class])->group(function () {
     Route::post('/usermaster/addNewUser',            [UserMasterController::class, 'addNewUser']);
 
 
-
-
-
-
-
-
-
-
     //Profile
     Route::get('/profile',                           [ProfileController::class, 'index']);
-    Route::post('/profile/update',                    [ProfileController::class, 'update']);
+    Route::post('/profile/update',                   [ProfileController::class, 'update']);
+
+    // Session management routes
+    Route::post('/logout-device/{id}',               [SessionController::class, 'logoutDevice'])->name('logout.device');
+    Route::post('/logout-all',                       [SessionController::class, 'logoutAll'])->name('logout.all');
 });
 
 Auth::routes();

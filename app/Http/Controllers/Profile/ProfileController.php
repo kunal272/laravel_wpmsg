@@ -15,7 +15,15 @@ class ProfileController extends Controller
         $user = DB::table('usermaster')
             ->where('id', Auth::user()->id)
             ->first();
-        return view('profile.index', compact('user'));
+
+        $sessions = DB::connection('mysql')
+            ->table('user_sessions')
+            ->where('user_id', Auth::user()->id)
+            ->orderByDesc('last_activity')
+            ->get();
+
+        // dd($sessions);
+        return view('profile.index', compact('user', 'sessions'));
     }
 
 

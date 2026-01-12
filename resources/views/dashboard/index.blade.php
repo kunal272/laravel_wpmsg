@@ -261,16 +261,20 @@
         </div>
 
 
+        <div class="row">
+            {{-- <div class="col-md-8"> --}}
+                <div class="card shadow-sm border-0">
+                    <div class="card-header bg-white fw-bold">
+                        Message Analytics
+                    </div>
 
-        <div class="card shadow-sm border-0">
-            <div class="card-header bg-white fw-bold">
-                Message Analytics
-            </div>
-
-            <div class="card-body">
-                <canvas id="msgChart" height="50"></canvas>
-            </div>
+                    <div class="card-body">
+                        <canvas id="msgChart" height="50"></canvas>
+                    </div>
+                </div>
+            {{-- </div> --}}
         </div>
+
 
 
     </div>
@@ -301,17 +305,57 @@
 
 
     <script>
+        // new Chart(document.getElementById('msgChart'), {
+        //     type: 'line',
+        //     data: {
+        //         labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+        //         datasets: [{
+        //             label: 'Messages',
+        //             data: [10, 20, 30, 40, 5, 7, 10],
+        //             fill: true,
+        //             tension: 0.4,
+        //             borderWidth: 2
+        //         }]
+        //     }
+        // });
+        const labels = @json($labels);
+        const data = @json($data);
+
         new Chart(document.getElementById('msgChart'), {
             type: 'line',
             data: {
-                labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                labels: labels,
                 datasets: [{
-                    label: 'Messages',
-                    data: [10, 20, 30, 40, 5, 7, 10],
+                    label: 'Messages Sent',
+                    data: data,
                     fill: true,
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
                     tension: 0.4,
-                    borderWidth: 2
+                    borderWidth: 2,
+                    pointBackgroundColor: 'rgba(54, 162, 235, 1)',
+                    pointRadius: 4
                 }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: true
+                    },
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            stepSize: 1
+                        }
+                    }
+                }
             }
         });
     </script>
