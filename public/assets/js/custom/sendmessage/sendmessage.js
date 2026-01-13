@@ -12,15 +12,39 @@ $(document).ready(function () {
         updatePreview($(this).val());
     });
 
+    // function updatePreview(message) {
+    //     if ($.trim(message) === '') {
+    //         $('#messagePreview').html(
+    //             '<span class="preview-placeholder">Message preview will appear here...</span>'
+    //         );
+    //     } else {
+    //         $('#messagePreview').text(message);
+    //     }
+    // }
+
     function updatePreview(message) {
         if ($.trim(message) === '') {
             $('#messagePreview').html(
                 '<span class="preview-placeholder">Message preview will appear here...</span>'
             );
         } else {
-            $('#messagePreview').text(message);
+            // Convert links into clickable links
+            let formattedMessage = message.replace(
+                /(https?:\/\/[^\s]+)/g,
+                '<a href="$1" target="_blank">$1</a>'
+            );
+
+            $('#messagePreview').html(formattedMessage);
         }
     }
+
+    
+
+
+
+
+
+
 
     // Submit form
     $('#sendMessageForm').submit(function (e) {

@@ -28,7 +28,7 @@ class CheckActiveSession
                     try {
                         \Illuminate\Support\Facades\Session::getHandler()->destroy($sessionId);
                     } catch (\Exception $e) {
-                        // optional: log($e->getMessage())
+                        log($e->getMessage());
                     }
 
                     $request->session()->invalidate();

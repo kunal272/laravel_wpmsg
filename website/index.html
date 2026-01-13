@@ -1,0 +1,1711 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ConnectPlus - Professional WhatsApp Messaging Platform</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.css">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-green: #16a34a;
+            --primary-emerald: #059669;
+            --dark-bg: #111827;
+            --dark-card: #1f2937;
+            --dark-text: #e5e7eb;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff;
+            color: #1f2937;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        body.dark-mode {
+            background-color: var(--dark-bg);
+            color: var(--dark-text);
+        }
+
+        /* Header Styles */
+        .navbar {
+            background: rgba(255, 255, 255, 0.8) !important;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-bottom: 1px solid rgba(229, 231, 235, 0.5);
+        }
+
+        body.dark-mode .navbar {
+            background: rgba(31, 41, 55, 0.8) !important;
+            border-bottom: 1px solid rgba(55, 65, 81, 0.5);
+        }
+
+        .navbar-brand {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #1f2937;
+        }
+
+        body.dark-mode .navbar-brand {
+            color: #ffffff;
+        }
+
+        .nav-link {
+            color: #4b5563 !important;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--primary-green) !important;
+            background-color: rgba(22, 163, 74, 0.1);
+        }
+
+        body.dark-mode .nav-link {
+            color: #d1d5db !important;
+        }
+
+        body.dark-mode .nav-link:hover,
+        body.dark-mode .nav-link.active {
+            color: #4ade80 !important;
+            background-color: rgba(34, 197, 94, 0.2);
+        }
+
+        /* Dark Mode Toggle */
+        #darkModeToggle {
+            background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
+            border: 1px solid rgba(209, 213, 219, 0.5);
+            border-radius: 0.75rem;
+            padding: 0.5rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        #darkModeToggle:hover {
+            transform: scale(1.1);
+        }
+
+        body.dark-mode #darkModeToggle {
+            background: linear-gradient(135deg, #374151, #4b5563);
+            border: 1px solid rgba(107, 114, 128, 0.5);
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background: linear-gradient(135deg, #f0fdf4, #ffffff, #ecfdf5);
+            padding: 5rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        body.dark-mode .hero-section {
+            background: linear-gradient(135deg, #111827, #1f2937, #064e3b);
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: -10rem;
+            right: -10rem;
+            width: 24rem;
+            height: 24rem;
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.2), rgba(5, 150, 105, 0.2));
+            border-radius: 50%;
+            filter: blur(80px);
+            animation: float 20s infinite ease-in-out;
+        }
+
+        .hero-section::after {
+            content: '';
+            position: absolute;
+            bottom: -10rem;
+            left: -10rem;
+            width: 24rem;
+            height: 24rem;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(34, 197, 94, 0.2));
+            border-radius: 50%;
+            filter: blur(80px);
+            animation: float 25s infinite ease-in-out reverse;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            50% {
+                transform: translate(50px, -50px) scale(1.2);
+            }
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+            color: #065f46;
+            padding: 0.625rem 1.25rem;
+            border-radius: 50px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: 1px solid #6ee7b7;
+            font-weight: 500;
+        }
+
+        body.dark-mode .hero-badge {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.5), rgba(5, 150, 105, 0.5));
+            color: #86efac;
+            border: 1px solid #064e3b;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, var(--primary-green), var(--primary-emerald));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        body.dark-mode .gradient-text {
+            background: linear-gradient(135deg, #4ade80, #34d399);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .btn-primary-custom {
+            background: linear-gradient(135deg, var(--primary-green), var(--primary-emerald));
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            font-size: 1.125rem;
+            box-shadow: 0 10px 15px rgba(22, 163, 74, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary-custom:hover {
+            transform: scale(1.05);
+            box-shadow: 0 20px 25px rgba(22, 163, 74, 0.4);
+        }
+
+        .btn-outline-custom {
+            border: 2px solid #d1d5db;
+            color: #4b5563;
+            padding: 1rem 2rem;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            font-size: 1.125rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-outline-custom:hover {
+            border-color: var(--primary-green);
+            color: var(--primary-green);
+            transform: scale(1.05);
+        }
+
+        body.dark-mode .btn-outline-custom {
+            border-color: #4b5563;
+            color: #d1d5db;
+        }
+
+        body.dark-mode .btn-outline-custom:hover {
+            border-color: #4ade80;
+            color: #4ade80;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        body.dark-mode .hero-stats {
+            border-top: 1px solid #374151;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.875rem;
+            font-weight: 700;
+            color: #1f2937;
+        }
+
+        body.dark-mode .stat-value {
+            color: #ffffff;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+
+        body.dark-mode .stat-label {
+            color: #9ca3af;
+        }
+
+        .hero-image {
+            border-radius: 1.5rem;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+            border: 4px solid white;
+        }
+
+        body.dark-mode .hero-image {
+            border-color: #1f2937;
+        }
+
+        /* Message Categories Section */
+        .message-categories {
+            padding: 6rem 0;
+            background: linear-gradient(to bottom, #ffffff, #f9fafb);
+        }
+
+        body.dark-mode .message-categories {
+            background: linear-gradient(to bottom, #111827, #1f2937);
+        }
+
+        .section-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+            color: #065f46;
+            padding: 0.625rem 1.25rem;
+            border-radius: 50px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: 1px solid #6ee7b7;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+        }
+
+        body.dark-mode .section-badge {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.5), rgba(5, 150, 105, 0.5));
+            color: #86efac;
+            border: 1px solid #064e3b;
+        }
+
+        .category-card {
+            background: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e5e7eb;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            height: 100%;
+        }
+
+        .category-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+        }
+
+        .category-card.blue::before {
+            background: linear-gradient(135deg, #3b82f6, #06b6d4);
+        }
+
+        .category-card.purple::before {
+            background: linear-gradient(135deg, #a855f7, #ec4899);
+        }
+
+        .category-card.orange::before {
+            background: linear-gradient(135deg, #f97316, #ef4444);
+        }
+
+        .category-card.green::before {
+            background: linear-gradient(135deg, #22c55e, #10b981);
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        body.dark-mode .category-card {
+            background: #1f2937;
+            border-color: #374151;
+        }
+
+        .category-icon {
+            width: 3rem;
+            height: 3rem;
+            border-radius: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            transition: transform 0.3s ease;
+        }
+
+        .category-card:hover .category-icon {
+            transform: scale(1.1);
+        }
+
+        .category-icon.blue {
+            background: rgba(59, 130, 246, 0.1);
+            color: #3b82f6;
+        }
+
+        body.dark-mode .category-icon.blue {
+            background: rgba(59, 130, 246, 0.2);
+            color: #60a5fa;
+        }
+
+        .category-icon.purple {
+            background: rgba(168, 85, 247, 0.1);
+            color: #a855f7;
+        }
+
+        body.dark-mode .category-icon.purple {
+            background: rgba(168, 85, 247, 0.2);
+            color: #c084fc;
+        }
+
+        .category-icon.orange {
+            background: rgba(249, 115, 22, 0.1);
+            color: #f97316;
+        }
+
+        body.dark-mode .category-icon.orange {
+            background: rgba(249, 115, 22, 0.2);
+            color: #fb923c;
+        }
+
+        .category-icon.green {
+            background: rgba(34, 197, 94, 0.1);
+            color: #22c55e;
+        }
+
+        body.dark-mode .category-icon.green {
+            background: rgba(34, 197, 94, 0.2);
+            color: #4ade80;
+        }
+
+        .category-card h5 {
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #1f2937;
+            font-size: 1rem;
+        }
+
+        body.dark-mode .category-card h5 {
+            color: #ffffff;
+        }
+
+        .category-card ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .category-card li {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+            color: #4b5563;
+            font-size: 0.875rem;
+        }
+
+        body.dark-mode .category-card li {
+            color: #d1d5db;
+        }
+
+        .category-card li::before {
+            content: '';
+            width: 0.5rem;
+            height: 0.5rem;
+            border-radius: 50%;
+            margin-top: 0.375rem;
+            flex-shrink: 0;
+        }
+
+        .category-card.blue li::before {
+            background: linear-gradient(135deg, #3b82f6, #06b6d4);
+        }
+
+        .category-card.purple li::before {
+            background: linear-gradient(135deg, #a855f7, #ec4899);
+        }
+
+        .category-card.orange li::before {
+            background: linear-gradient(135deg, #f97316, #ef4444);
+        }
+
+        .category-card.green li::before {
+            background: linear-gradient(135deg, #22c55e, #10b981);
+        }
+
+        /* Features Section */
+        .features-section {
+            padding: 6rem 0;
+            background: linear-gradient(to bottom, #ffffff, #f9fafb, #ffffff);
+            position: relative;
+        }
+
+        body.dark-mode .features-section {
+            background: linear-gradient(to bottom, #111827, #1f2937, #111827);
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.05), rgba(5, 150, 105, 0.05));
+            border-radius: 1.5rem;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(229, 231, 235, 0.5);
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        body.dark-mode .feature-card {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(5, 150, 105, 0.1));
+            border-color: rgba(55, 65, 81, 0.5);
+        }
+
+        .feature-icon {
+            width: 4rem;
+            height: 4rem;
+            border-radius: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--primary-green), var(--primary-emerald));
+            color: white;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 10px 15px rgba(22, 163, 74, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover .feature-icon {
+            transform: scale(1.1);
+        }
+
+        .feature-card h4 {
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: #1f2937;
+        }
+
+        body.dark-mode .feature-card h4 {
+            color: #ffffff;
+        }
+
+        .feature-card ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .feature-card li {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            color: #4b5563;
+        }
+
+        body.dark-mode .feature-card li {
+            color: #d1d5db;
+        }
+
+        .feature-check {
+            width: 1.5rem;
+            height: 1.5rem;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #4ade80, #22c55e);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            box-shadow: 0 2px 4px rgba(34, 197, 94, 0.3);
+        }
+
+        /* Trust & Security Section */
+        .trust-section {
+            padding: 6rem 0;
+            background: linear-gradient(135deg, #f0fdf4, #ecfdf5, #dbeafe);
+            position: relative;
+            overflow: hidden;
+        }
+
+        body.dark-mode .trust-section {
+            background: linear-gradient(135deg, #111827, #1f2937, #064e3b);
+        }
+
+        .trust-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: linear-gradient(135deg, var(--primary-green), var(--primary-emerald));
+            color: white;
+            padding: 0.625rem 1.25rem;
+            border-radius: 50px;
+            box-shadow: 0 10px 15px rgba(22, 163, 74, 0.3);
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+        }
+
+        .security-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(229, 231, 235, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        .security-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        body.dark-mode .security-card {
+            background: rgba(31, 41, 55, 0.8);
+            border-color: rgba(55, 65, 81, 0.5);
+        }
+
+        .security-icon {
+            width: 4rem;
+            height: 4rem;
+            border-radius: 1rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .security-card:hover .security-icon {
+            transform: scale(1.1);
+        }
+
+        .security-icon.gradient-blue {
+            background: linear-gradient(135deg, #3b82f6, #06b6d4);
+        }
+
+        .security-icon.gradient-purple {
+            background: linear-gradient(135deg, #a855f7, #ec4899);
+        }
+
+        .security-icon.gradient-green {
+            background: linear-gradient(135deg, #22c55e, #10b981);
+        }
+
+        .security-icon.gradient-orange {
+            background: linear-gradient(135deg, #f97316, #ef4444);
+        }
+
+        .security-icon.gradient-indigo {
+            background: linear-gradient(135deg, #6366f1, #a855f7);
+        }
+
+        /* Target Audience Section */
+        .audience-section {
+            padding: 6rem 0;
+            background: linear-gradient(to bottom, #f9fafb, #ffffff);
+        }
+
+        body.dark-mode .audience-section {
+            background: linear-gradient(to bottom, #1f2937, #111827);
+        }
+
+        .audience-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+
+        .audience-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 25px rgba(0, 0, 0, 0.15);
+            border-color: #4ade80;
+        }
+
+        body.dark-mode .audience-card {
+            background: #1f2937;
+            border-color: #374151;
+        }
+
+        body.dark-mode .audience-card:hover {
+            border-color: #22c55e;
+        }
+
+        .audience-icon {
+            width: 4rem;
+            height: 4rem;
+            border-radius: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            color: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .audience-card:hover .audience-icon {
+            transform: scale(1.1);
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 6rem 0;
+            background: linear-gradient(135deg, var(--primary-green), var(--primary-emerald), #047857);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 24rem;
+            height: 24rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            filter: blur(80px);
+            animation: float 8s infinite ease-in-out;
+        }
+
+        .cta-section::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 24rem;
+            height: 24rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            filter: blur(80px);
+            animation: float 10s infinite ease-in-out reverse;
+        }
+
+        .cta-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            color: white;
+            padding: 0.625rem 1.25rem;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+            font-weight: 500;
+            margin-bottom: 2rem;
+        }
+
+        .cta-feature-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .btn-cta-white {
+            background: white;
+            color: var(--primary-green);
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            font-size: 1.125rem;
+            box-shadow: 0 20px 25px rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .btn-cta-white:hover {
+            transform: scale(1.05);
+            background: #f9fafb;
+        }
+
+        .btn-cta-outline {
+            border: 2px solid white;
+            color: white;
+            background: transparent;
+            padding: 1rem 2rem;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            font-size: 1.125rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-cta-outline:hover {
+            transform: scale(1.05);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(to bottom, #111827, #000000);
+            color: #d1d5db;
+            padding: 4rem 0 2rem;
+        }
+
+        footer h5 {
+            color: white;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        footer a {
+            color: #d1d5db;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        footer a:hover {
+            color: #4ade80;
+            transform: translateX(4px);
+        }
+
+        .social-link {
+            background: #1f2937;
+            width: 2.5rem;
+            height: 2.5rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background: var(--primary-green);
+            transform: scale(1.1);
+        }
+
+        /* Animations */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .fade-in-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-section {
+                padding: 3rem 0;
+            }
+
+            h1 {
+                font-size: 2rem !important;
+            }
+
+            h2 {
+                font-size: 1.75rem !important;
+            }
+
+            .hero-stats {
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+
+            .message-categories,
+            .features-section,
+            .trust-section,
+            .audience-section,
+            .cta-section {
+                padding: 3rem 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header/Navbar -->
+    <nav class="navbar navbar-expand-lg sticky-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center gap-2" href="#home">
+                <div class="d-flex align-items-center justify-content-center bg-gradient text-white p-2 rounded-3"
+                    style="background: linear-gradient(135deg, var(--primary-green), var(--primary-emerald)) !important; box-shadow: 0 4px 6px rgba(22, 163, 74, 0.3);">
+                    <i class="bi bi-chat-dots-fill" style="font-size: 1.5rem;"></i>
+                </div>
+                <span>Connect<span class="text-success">Plus</span></span>
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item p-2">
+                        <a class="nav-link active" href="#home">Home</a>
+                    </li>
+                    <li class="nav-item p-2">
+                        <a class="nav-link" href="#pricing">Pricing</a>
+                    </li>
+                    <li class="nav-item p-2">
+                        <a class="nav-link" href="#about">About</a>
+                    </li>
+                    <li class="nav-item p-2">
+                        <a class="nav-link" href="#contact">Contact</a>
+                    </li>
+                </ul>
+                <div class="d-flex align-items-center gap-3">
+                    <button id="darkModeToggle" class="btn">
+                        <i class="bi bi-moon-fill" id="darkModeIcon"></i>
+                    </button>
+                    <button class="btn text-secondary d-none d-lg-block">Login</button>
+                    <button class="btn btn-primary-custom d-none d-lg-block">
+                        <i class="bi bi-sparkles me-2"></i>Get Started
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-section">
+        <div class="container position-relative" style="z-index: 10;">
+            <div class="row align-items-center g-5">
+                <div class="col-lg-6 fade-in-up">
+                    <div class="hero-badge mb-4">
+                        <i class="bi bi-lightning-fill"></i>
+                        <span>Professional WhatsApp Messaging</span>
+                    </div>
+                    <h1 class="display-3 fw-bold mb-4">
+                        Empower Your Business with <span class="gradient-text">Smart Messaging</span>
+                    </h1>
+                    <p class="lead mb-4 text-secondary">
+                        Connect with every customer instantly. Built for CSC Centres, Hotels, Clinics & Service
+                        Providers.
+                    </p>
+                    <div class="d-flex flex-wrap gap-3 mb-4">
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="bi bi-check-circle-fill text-success"></i>
+                            <span>Bulk Messaging</span>
+                        </div>
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="bi bi-check-circle-fill text-success"></i>
+                            <span>Customer Management</span>
+                        </div>
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="bi bi-check-circle-fill text-success"></i>
+                            <span>Secure & Reliable</span>
+                        </div>
+                    </div>
+                    <div class="d-flex flex-column flex-sm-row gap-3 mb-4">
+                        <button class="btn btn-primary-custom">
+                            Get Started Free
+                            <i class="bi bi-arrow-right ms-2"></i>
+                        </button>
+                        <button class="btn btn-outline-custom">
+                            Watch Demo
+                        </button>
+                    </div>
+                    <div class="hero-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">100+</div>
+                            <div class="stat-label">Active Users</div>
+                        </div>
+                        <div style="width: 1px; background: #e5e7eb;"></div>
+                        <div class="stat-item">
+                            <div class="stat-value">5M+</div>
+                            <div class="stat-label">Messages Sent</div>
+                        </div>
+                        <div style="width: 1px; background: #e5e7eb;"></div>
+                        <div class="stat-item">
+                            <div class="stat-value">99.9%</div>
+                            <div class="stat-label">Uptime</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 fade-in-up">
+                    <img src="https://images.unsplash.com/photo-1556740758-90de374c12ad?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxidXNpbmVzcyUyMGN1c3RvbWVyJTIwc2VydmljZXxlbnwxfHx8fDE3NjY5OTg3OTJ8MA&ixlib=rb-4.1.0&q=80&w=1080"
+                        alt="Business customer service" class="img-fluid hero-image">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Message Categories Section -->
+    <section class="message-categories">
+        <div class="container">
+            <div class="text-center mb-5 fade-in-up">
+                <div class="section-badge">
+                    <i class="bi bi-bullseye"></i>
+                    <span>Message Types</span>
+                </div>
+                <h2 class="display-4 fw-bold mb-3">
+                    Message Categories That Fit <span class="gradient-text">Every Business</span>
+                </h2>
+                <p class="lead text-secondary">
+                    Send the right message at the right time, every time with our versatile messaging platform
+                </p>
+            </div>
+            <div class="row g-3">
+                <!-- Bills & Invoices -->
+                <div class="col-lg-3 col-md-6 fade-in-up">
+                    <div class="category-card blue">
+                        <div class="category-icon blue">
+                            <i class="bi bi-receipt" style="font-size: 1.5rem;"></i>
+                        </div>
+                        <h5>Bills, Invoices & Receipts</h5>
+                        <ul>
+                            <li>Electricity, water bills</li>
+                            <li>Hotel invoices</li>
+                            <li>Service charges</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Informational -->
+                <div class="col-lg-3 col-md-6 fade-in-up">
+                    <div class="category-card purple">
+                        <div class="category-icon purple">
+                            <i class="bi bi-info-circle" style="font-size: 1.5rem;"></i>
+                        </div>
+                        <h5>Informational Messages</h5>
+                        <ul>
+                            <li>Booking confirmations</li>
+                            <li>Check-in/out info</li>
+                            <li>Status updates</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Promotional -->
+                <div class="col-lg-3 col-md-6 fade-in-up">
+                    <div class="category-card orange">
+                        <div class="category-icon orange">
+                            <i class="bi bi-megaphone" style="font-size: 1.5rem;"></i>
+                        </div>
+                        <h5>Promotional Messages</h5>
+                        <ul>
+                            <li>Special offers</li>
+                            <li>New services</li>
+                            <li>Seasonal promotions</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Reminders -->
+                <div class="col-lg-3 col-md-6 fade-in-up">
+                    <div class="category-card green">
+                        <div class="category-icon green">
+                            <i class="bi bi-bell" style="font-size: 1.5rem;"></i>
+                        </div>
+                        <h5>Reminders & Alerts</h5>
+                        <ul>
+                            <li>Payment reminders</li>
+                            <li>Booking reminders</li>
+                            <li>Appointment alerts</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section">
+        <div class="container">
+            <div class="text-center mb-5 fade-in-up">
+                <div class="section-badge">
+                    <i class="bi bi-sparkles"></i>
+                    <span>Powerful Tools</span>
+                </div>
+                <h2 class="display-4 fw-bold mb-3">
+                    Powerful Features, <span class="gradient-text">Simple Experience</span>
+                </h2>
+                <p class="lead text-secondary">
+                    Everything you need to manage customer communication effectively and grow your business
+                </p>
+            </div>
+            <div class="row g-4">
+                <!-- Smart Messaging -->
+                <div class="col-lg-4 fade-in-up">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="bi bi-send-fill" style="font-size: 2rem;"></i>
+                        </div>
+                        <h4>Smart Messaging</h4>
+                        <ul>
+                            <li>
+                                <div class="feature-check">
+                                    <div style="width: 0.5rem; height: 0.5rem; background: white; border-radius: 50%;">
+                                    </div>
+                                </div>
+                                <span>Send single or bulk WhatsApp messages</span>
+                            </li>
+                            <li>
+                                <div class="feature-check">
+                                    <div style="width: 0.5rem; height: 0.5rem; background: white; border-radius: 50%;">
+                                    </div>
+                                </div>
+                                <span>Predefined message templates</span>
+                            </li>
+                            <li>
+                                <div class="feature-check">
+                                    <div style="width: 0.5rem; height: 0.5rem; background: white; border-radius: 50%;">
+                                    </div>
+                                </div>
+                                <span>Schedule messages in advance</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Customer Management -->
+                <div class="col-lg-4 fade-in-up">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="bi bi-people-fill" style="font-size: 2rem;"></i>
+                        </div>
+                        <h4>Customer & Contact Management</h4>
+                        <ul>
+                            <li>
+                                <div class="feature-check">
+                                    <div style="width: 0.5rem; height: 0.5rem; background: white; border-radius: 50%;">
+                                    </div>
+                                </div>
+                                <span>Manage multiple customers easily</span>
+                            </li>
+                            <li>
+                                <div class="feature-check">
+                                    <div style="width: 0.5rem; height: 0.5rem; background: white; border-radius: 50%;">
+                                    </div>
+                                </div>
+                                <span>Import contacts via Excel/CSV</span>
+                            </li>
+                            <li>
+                                <div class="feature-check">
+                                    <div style="width: 0.5rem; height: 0.5rem; background: white; border-radius: 50%;">
+                                    </div>
+                                </div>
+                                <span>Categorise customers by service type</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Tracking & Reliability -->
+                <div class="col-lg-4 fade-in-up">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="bi bi-bar-chart-fill" style="font-size: 2rem;"></i>
+                        </div>
+                        <h4>Tracking & Reliability</h4>
+                        <ul>
+                            <li>
+                                <div class="feature-check">
+                                    <div style="width: 0.5rem; height: 0.5rem; background: white; border-radius: 50%;">
+                                    </div>
+                                </div>
+                                <span>Message delivery status</span>
+                            </li>
+                            <li>
+                                <div class="feature-check">
+                                    <div style="width: 0.5rem; height: 0.5rem; background: white; border-radius: 50%;">
+                                    </div>
+                                </div>
+                                <span>Secure WhatsApp session handling</span>
+                            </li>
+                            <li>
+                                <div class="feature-check">
+                                    <div style="width: 0.5rem; height: 0.5rem; background: white; border-radius: 50%;">
+                                    </div>
+                                </div>
+                                <span>Stable and fast message delivery</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trust & Security Section -->
+    <section class="trust-section">
+        <div class="container">
+            <div class="text-center mb-5 fade-in-up">
+                <div class="trust-badge">
+                    <i class="bi bi-shield-fill-check"></i>
+                    <span>Security First</span>
+                </div>
+                <h2 class="display-4 fw-bold mb-3">
+                    Built for Trust, Security & <span class="gradient-text">Compliance</span>
+                </h2>
+                <p class="lead text-secondary mb-4">
+                    We believe in responsible communication. Your data and your customers' privacy are our top
+                    priorities.
+                </p>
+                <!-- Trust badges -->
+                <div class="d-flex flex-wrap justify-content-center gap-3 mb-5">
+                    <div class="d-flex align-items-center gap-2 bg-white px-3 py-2 rounded shadow-sm"
+                        style="border: 1px solid #e5e7eb;">
+                        <i class="bi bi-award-fill text-success"></i>
+                        <span class="small fw-medium">ISO Certified</span>
+                    </div>
+                    <div class="d-flex align-items-center gap-2 bg-white px-3 py-2 rounded shadow-sm"
+                        style="border: 1px solid #e5e7eb;">
+                        <i class="bi bi-shield-fill-check text-success"></i>
+                        <span class="small fw-medium">GDPR Compliant</span>
+                    </div>
+                    <div class="d-flex align-items-center gap-2 bg-white px-3 py-2 rounded shadow-sm"
+                        style="border: 1px solid #e5e7eb;">
+                        <i class="bi bi-lock-fill text-success"></i>
+                        <span class="small fw-medium">256-bit Encryption</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row g-4 mb-5">
+                <div class="col-lg col-md-4 col-sm-6 fade-in-up">
+                    <div class="security-card">
+                        <div class="security-icon gradient-blue">
+                            <i class="bi bi-qr-code text-white" style="font-size: 2rem;"></i>
+                        </div>
+                        <p class="fw-medium mb-0">QR-based WhatsApp login</p>
+                    </div>
+                </div>
+                <div class="col-lg col-md-4 col-sm-6 fade-in-up">
+                    <div class="security-card">
+                        <div class="security-icon gradient-purple">
+                            <i class="bi bi-database-fill text-white" style="font-size: 2rem;"></i>
+                        </div>
+                        <p class="fw-medium mb-0">Secure session storage</p>
+                    </div>
+                </div>
+                <div class="col-lg col-md-4 col-sm-6 fade-in-up">
+                    <div class="security-card">
+                        <div class="security-icon gradient-green">
+                            <i class="bi bi-check-circle-fill text-white" style="font-size: 2rem;"></i>
+                        </div>
+                        <p class="fw-medium mb-0">Customer consent–based messaging</p>
+                    </div>
+                </div>
+                <div class="col-lg col-md-4 col-sm-6 fade-in-up">
+                    <div class="security-card">
+                        <div class="security-icon gradient-orange">
+                            <i class="bi bi-shield-fill-check text-white" style="font-size: 2rem;"></i>
+                        </div>
+                        <p class="fw-medium mb-0">No spam or misuse</p>
+                    </div>
+                </div>
+                <div class="col-lg col-md-4 col-sm-6 fade-in-up">
+                    <div class="security-card">
+                        <div class="security-icon gradient-indigo">
+                            <i class="bi bi-lock-fill text-white" style="font-size: 2rem;"></i>
+                        </div>
+                        <p class="fw-medium mb-0">Suitable for official communication</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Privacy commitment -->
+            <div class="fade-in-up">
+                <div class="security-card mx-auto" style="max-width: 48rem; padding: 2rem;">
+                    <div class="d-flex align-items-center justify-content-center gap-3 mb-3">
+                        <div class="d-flex align-items-center justify-content-center"
+                            style="width: 3rem; height: 3rem; background: rgba(34, 197, 94, 0.1); border-radius: 50%;">
+                            <i class="bi bi-shield-fill-check text-success" style="font-size: 1.5rem;"></i>
+                        </div>
+                        <h4 class="mb-0">Commitment to Privacy</h4>
+                    </div>
+                    <p class="text-secondary mb-0">
+                        We never store your messages or customer data on our servers. All communication happens directly
+                        through WhatsApp's encrypted channels. Your business data remains yours, always.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Target Audience Section -->
+    <section id="about" class="audience-section">
+        <div class="container">
+            <div class="text-center mb-5 fade-in-up">
+                <div class="section-badge">
+                    <i class="bi bi-people-fill"></i>
+                    <span>Target Audience</span>
+                </div>
+                <h2 class="display-4 fw-bold mb-3">
+                    Who Can Use This <span class="gradient-text">Platform?</span>
+                </h2>
+                <p class="lead text-secondary">
+                    Designed for businesses that serve many customers daily and need efficient communication
+                </p>
+            </div>
+
+            <div class="row g-4 mb-5">
+                <div class="col-lg-3 col-md-4 col-sm-6 fade-in-up">
+                    <div class="audience-card">
+                        <div class="audience-icon" style="background: linear-gradient(135deg, #3b82f6, #06b6d4);">
+                            <i class="bi bi-building" style="font-size: 2rem;"></i>
+                        </div>
+                        <h6 class="fw-semibold">CSC & Government Service Centres</h6>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-4 col-sm-6 fade-in-up">
+                    <div class="audience-card">
+                        <div class="audience-icon" style="background: linear-gradient(135deg, #a855f7, #ec4899);">
+                            <i class="bi bi-door-open-fill" style="font-size: 2rem;"></i>
+                        </div>
+                        <h6 class="fw-semibold">Hotels & Lodges</h6>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-4 col-sm-6 fade-in-up">
+                    <div class="audience-card">
+                        <div class="audience-icon" style="background: linear-gradient(135deg, #ef4444, #f97316);">
+                            <i class="bi bi-heart-pulse-fill" style="font-size: 2rem;"></i>
+                        </div>
+                        <h6 class="fw-semibold">Clinics & Diagnostic Centres</h6>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-4 col-sm-6 fade-in-up">
+                    <div class="audience-card">
+                        <div class="audience-icon" style="background: linear-gradient(135deg, #6366f1, #3b82f6);">
+                            <i class="bi bi-wifi" style="font-size: 2rem;"></i>
+                        </div>
+                        <h6 class="fw-semibold">Cyber Cafés & Online Work Centres</h6>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-4 col-sm-6 fade-in-up">
+                    <div class="audience-card">
+                        <div class="audience-icon" style="background: linear-gradient(135deg, #22c55e, #10b981);">
+                            <i class="bi bi-shop" style="font-size: 2rem;"></i>
+                        </div>
+                        <h6 class="fw-semibold">Shops & Local Businesses</h6>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-4 col-sm-6 fade-in-up">
+                    <div class="audience-card">
+                        <div class="audience-icon" style="background: linear-gradient(135deg, #eab308, #f97316);">
+                            <i class="bi bi-mortarboard-fill" style="font-size: 2rem;"></i>
+                        </div>
+                        <h6 class="fw-semibold">Educational Institutes</h6>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-4 col-sm-6 fade-in-up">
+                    <div class="audience-card">
+                        <div class="audience-icon" style="background: linear-gradient(135deg, #14b8a6, #06b6d4);">
+                            <i class="bi bi-briefcase-fill" style="font-size: 2rem;"></i>
+                        </div>
+                        <h6 class="fw-semibold">Service Providers & Agencies</h6>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center fade-in-up">
+                <p class="text-secondary mb-3">
+                    Don't see your business type? Our platform is flexible and can work for any business that needs to
+                    communicate with customers.
+                </p>
+                <a href="#contact" class="text-success fw-semibold text-decoration-none">
+                    Contact us to learn more →
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section position-relative">
+        <div class="container text-center position-relative" style="z-index: 10;">
+            <div class="fade-in-up">
+                <div class="cta-badge">
+                    <i class="bi bi-sparkles"></i>
+                    <span>Start Your Journey Today</span>
+                </div>
+                <h2 class="display-3 fw-bold text-white mb-4">
+                    Ready to Transform Your<br>
+                    <span style="color: #d1fae5;">Customer Communication?</span>
+                </h2>
+                <p class="lead text-white mb-5" style="color: #d1fae5 !important;">
+                    Join hundreds of businesses already using our platform to connect with their customers better.
+                </p>
+
+                <!-- Feature badges -->
+                <div class="d-flex flex-wrap justify-content-center gap-3 mb-5">
+                    <div class="cta-feature-badge">
+                        <i class="bi bi-check-circle-fill" style="color: #d1fae5;"></i>
+                        <span>No credit card required</span>
+                    </div>
+                    <div class="cta-feature-badge">
+                        <i class="bi bi-check-circle-fill" style="color: #d1fae5;"></i>
+                        <span>Free trial available</span>
+                    </div>
+                    <div class="cta-feature-badge">
+                        <i class="bi bi-check-circle-fill" style="color: #d1fae5;"></i>
+                        <span>Setup in 5 minutes</span>
+                    </div>
+                    <div class="cta-feature-badge">
+                        <i class="bi bi-check-circle-fill" style="color: #d1fae5;"></i>
+                        <span>24/7 Support</span>
+                    </div>
+                </div>
+
+                <div class="d-flex flex-column flex-sm-row justify-content-center gap-3 mb-4">
+                    <button class="btn btn-cta-white">
+                        Get Started Free
+                        <i class="bi bi-arrow-right ms-2"></i>
+                    </button>
+                    <button class="btn btn-cta-outline">
+                        Schedule a Demo
+                    </button>
+                </div>
+
+                <p class="text-white mt-4" style="color: #d1fae5 !important;">
+                    Trusted by 10,000+ businesses worldwide 🌍
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section (Simple placeholder) -->
+    <section id="pricing" class="py-5" style="background: #f9fafb;">
+        <div class="container">
+            <div class="text-center mb-5 fade-in-up">
+                <div class="section-badge">
+                    <i class="bi bi-tag-fill"></i>
+                    <span>Pricing Plans</span>
+                </div>
+                <h2 class="display-4 fw-bold mb-3">
+                    Simple, Transparent <span class="gradient-text">Pricing</span>
+                </h2>
+                <p class="lead text-secondary">
+                    Choose the plan that fits your business needs
+                </p>
+            </div>
+            <div class="row g-4 justify-content-center">
+                <div class="col-lg-4">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-body p-4">
+                            <h5 class="fw-bold mb-3">Starter</h5>
+                            <div class="display-4 fw-bold mb-3">₹999<small class="fs-6 text-secondary">/mo</small></div>
+                            <ul class="list-unstyled mb-4">
+                                <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Up to 1,000
+                                    messages/month</li>
+                                <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>100 contacts
+                                </li>
+                                <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Basic
+                                    templates</li>
+                                <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Email support
+                                </li>
+                            </ul>
+                            <button class="btn btn-outline-custom w-100">Get Started</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="card border-0 shadow-lg h-100"
+                        style="border: 2px solid var(--primary-green) !important;">
+                        <div class="card-body p-4">
+                            <div class="badge bg-success mb-3">Most Popular</div>
+                            <h5 class="fw-bold mb-3">Professional</h5>
+                            <div class="display-4 fw-bold mb-3">₹2,499<small class="fs-6 text-secondary">/mo</small>
+                            </div>
+                            <ul class="list-unstyled mb-4">
+                                <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Up to 10,000
+                                    messages/month</li>
+                                <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Unlimited
+                                    contacts</li>
+                                <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Advanced
+                                    templates</li>
+                                <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Priority
+                                    support</li>
+                                <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Analytics
+                                    dashboard</li>
+                            </ul>
+                            <button class="btn btn-primary-custom w-100">Get Started</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-body p-4">
+                            <h5 class="fw-bold mb-3">Enterprise</h5>
+                            <div class="display-4 fw-bold mb-3">Custom</div>
+                            <ul class="list-unstyled mb-4">
+                                <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Unlimited
+                                    messages</li>
+                                <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Unlimited
+                                    contacts</li>
+                                <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Custom
+                                    templates</li>
+                                <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>24/7 dedicated
+                                    support</li>
+                                <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>API access
+                                </li>
+                            </ul>
+                            <button class="btn btn-outline-custom w-100">Contact Us</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section (Simple placeholder) -->
+    <section id="contact" class="py-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="text-center mb-5 fade-in-up">
+                        <div class="section-badge">
+                            <i class="bi bi-envelope-fill"></i>
+                            <span>Get In Touch</span>
+                        </div>
+                        <h2 class="display-4 fw-bold mb-3">
+                            Contact <span class="gradient-text">Us</span>
+                        </h2>
+                        <p class="lead text-secondary">
+                            Have questions? We'd love to hear from you.
+                        </p>
+                    </div>
+                    <div class="card border-0 shadow-lg fade-in-up">
+                        <div class="card-body p-5">
+                            <form>
+                                <div class="mb-4">
+                                    <label class="form-label fw-semibold">Name</label>
+                                    <input type="text" class="form-control form-control-lg" placeholder="Your name">
+                                </div>
+                                <div class="mb-4">
+                                    <label class="form-label fw-semibold">Email</label>
+                                    <input type="email" class="form-control form-control-lg"
+                                        placeholder="your@email.com">
+                                </div>
+                                <div class="mb-4">
+                                    <label class="form-label fw-semibold">Message</label>
+                                    <textarea class="form-control form-control-lg" rows="5"
+                                        placeholder="Your message..."></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary-custom w-100">
+                                    Send Message
+                                    <i class="bi bi-send-fill ms-2"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row g-4 mb-4">
+                <div class="col-lg-3">
+                    <div class="d-flex align-items-center gap-2 mb-4">
+                        <div class="d-flex align-items-center justify-content-center bg-gradient text-white p-2 rounded-3"
+                            style="background: linear-gradient(135deg, var(--primary-green), var(--primary-emerald)) !important; box-shadow: 0 4px 6px rgba(22, 163, 74, 0.3);">
+                            <i class="bi bi-chat-dots-fill" style="font-size: 1.5rem;"></i>
+                        </div>
+                        <span class="fs-5 fw-semibold text-white">WhatsApp<span class="text-success">Biz</span></span>
+                    </div>
+                    <p class="text-secondary mb-4">
+                        Professional WhatsApp messaging platform empowering businesses to connect with their customers
+                        seamlessly.
+                    </p>
+                    <div class="d-flex gap-2">
+                        <a href="#" class="social-link">
+                            <i class="bi bi-twitter"></i>
+                        </a>
+                        <a href="#" class="social-link">
+                            <i class="bi bi-linkedin"></i>
+                        </a>
+                        <a href="#" class="social-link">
+                            <i class="bi bi-instagram"></i>
+                        </a>
+                        <a href="#" class="social-link">
+                            <i class="bi bi-facebook"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-4">
+                    <h5>Product</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#">Features</a></li>
+                        <li class="mb-2"><a href="#pricing">Pricing</a></li>
+                        <li class="mb-2"><a href="#">Use Cases</a></li>
+                        <li class="mb-2"><a href="#">API Docs</a></li>
+                        <li class="mb-2"><a href="#">Integrations</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-4">
+                    <h5>Company</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#about">About Us</a></li>
+                        <li class="mb-2"><a href="#contact">Contact</a></li>
+                        <li class="mb-2"><a href="#">Careers</a></li>
+                        <li class="mb-2"><a href="#">Privacy Policy</a></li>
+                        <li class="mb-2"><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-4">
+                    <h5>Contact</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-3 d-flex align-items-center gap-2">
+                            <div class="p-2 rounded" style="background: rgba(34, 197, 94, 0.2);">
+                                <i class="bi bi-envelope-fill text-success"></i>
+                            </div>
+                            <small>support@whatsappbiz.com</small>
+                        </li>
+                        <li class="mb-3 d-flex align-items-center gap-2">
+                            <div class="p-2 rounded" style="background: rgba(34, 197, 94, 0.2);">
+                                <i class="bi bi-telephone-fill text-success"></i>
+                            </div>
+                            <small>+91 1234567890</small>
+                        </li>
+                        <li class="mb-3 d-flex align-items-start gap-2">
+                            <div class="p-2 rounded" style="background: rgba(34, 197, 94, 0.2);">
+                                <i class="bi bi-geo-alt-fill text-success"></i>
+                            </div>
+                            <small>123 Business Street, City, State, India</small>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-top pt-4 d-flex flex-column flex-md-row justify-content-between align-items-center gap-3"
+                style="border-color: #1f2937 !important;">
+                <p class="text-secondary small mb-0">
+                    &copy; 2026 WhatsAppBiz. All rights reserved.
+                </p>
+                <div class="d-flex gap-4">
+                    <a href="#" class="text-secondary small">Privacy</a>
+                    <a href="#" class="text-secondary small">Terms</a>
+                    <a href="#" class="text-secondary small">Cookies</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            // Dark Mode Toggle
+            const darkModeToggle = $('#darkModeToggle');
+            const darkModeIcon = $('#darkModeIcon');
+            const body = $('body');
+
+            // Check for saved dark mode preference
+            if (localStorage.getItem('darkMode') === 'enabled') {
+                body.addClass('dark-mode');
+                darkModeIcon.removeClass('bi-moon-fill').addClass('bi-sun-fill');
+            }
+
+            darkModeToggle.on('click', function () {
+                body.toggleClass('dark-mode');
+
+                if (body.hasClass('dark-mode')) {
+                    darkModeIcon.removeClass('bi-moon-fill').addClass('bi-sun-fill');
+                    localStorage.setItem('darkMode', 'enabled');
+                } else {
+                    darkModeIcon.removeClass('bi-sun-fill').addClass('bi-moon-fill');
+                    localStorage.setItem('darkMode', 'disabled');
+                }
+            });
+
+            // Smooth scrolling for navigation links
+            $('a[href^="#"]').on('click', function (e) {
+                const target = $(this.getAttribute('href'));
+                if (target.length) {
+                    e.preventDefault();
+                    $('html, body').stop().animate({
+                        scrollTop: target.offset().top - 80
+                    }, 800);
+
+                    // Update active nav link
+                    $('.nav-link').removeClass('active');
+                    $(this).addClass('active');
+
+                    // Close mobile menu if open
+                    $('.navbar-collapse').collapse('hide');
+                }
+            });
+
+            // Scroll Animation
+            function checkScroll() {
+                $('.fade-in-up').each(function () {
+                    const elementTop = $(this).offset().top;
+                    const viewportBottom = $(window).scrollTop() + $(window).height();
+
+                    if (viewportBottom > elementTop + 100) {
+                        $(this).addClass('visible');
+                    }
+                });
+            }
+
+            $(window).on('scroll', checkScroll);
+            checkScroll(); // Initial check
+
+            // Update active nav link on scroll
+            $(window).on('scroll', function () {
+                let scrollPos = $(window).scrollTop() + 100;
+
+                $('section[id]').each(function () {
+                    const sectionTop = $(this).offset().top;
+                    const sectionHeight = $(this).outerHeight();
+                    const sectionId = $(this).attr('id');
+
+                    if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
+                        $('.nav-link').removeClass('active');
+                        $(`.nav-link[href="#${sectionId}"]`).addClass('active');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

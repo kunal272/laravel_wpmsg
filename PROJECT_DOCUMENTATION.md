@@ -197,3 +197,16 @@ name VARCHAR(150) NULL,
 mobile VARCHAR(20) NOT NULL,
 created_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE `user_sessions` (
+`id` int NOT NULL AUTO_INCREMENT,
+`user_id` int NOT NULL,
+`ip_address` varchar(45) DEFAULT NULL,
+`user_agent` varchar(255) DEFAULT NULL,
+`session_id` varchar(100) NOT NULL,
+`last_activity` datetime DEFAULT NULL,
+`created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+`updated_at` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+PRIMARY KEY (`id`),
+UNIQUE KEY `session_id_unique` (`session_id`)
+) ;

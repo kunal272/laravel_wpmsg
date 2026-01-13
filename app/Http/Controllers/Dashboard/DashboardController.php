@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
 class DashboardController extends Controller
@@ -30,13 +31,24 @@ class DashboardController extends Controller
         }
 
         return view('dashboard.index', [
-            'totalDevices'   => DB::table('whatsapp_devices')->count(),
-            'activeDevices'  => DB::table('whatsapp_devices')->where('status', 'ONLINE')->count(),
-            'phonebooks'     => DB::table('phonebooks')->count(),
+            'totalDevices'   => DB::table('whatsapp_devices')->where('user_id', Auth::user()->id)->count(),
+            'activeDevices'  => DB::table('whatsapp_devices')->where('user_id', Auth::user()->id)->where('status', 'ONLINE')->count(),
+            'phonebooks'     => DB::table('phonebooks')->where('user_id', Auth::user()->id)->count(),
             'contacts'       => DB::table('phonebook_contacts')->count(),
             'todayMessages'  => DB::table('message_queue')
-                ->whereDate('sent_at', today())
+                // ->where('user_id', Auth::user()->id)
+                // ->whereDate('sent_at', today())
                 ->where('status', '=', 'sent')
+                ->count(),
+            'todayMessagesSuccess'  => DB::table('message_queue')
+                // ->where('user_id', Auth::user()->id)
+                // ->whereDate('sent_at', today())
+                ->where('status', '=', 'sent')
+                ->count(),
+            'todayMessagesFailed'  => DB::table('message_queue')
+                // ->where('user_id', Auth::user()->id)
+                // ->whereDate('sent_at', today())
+                ->where('status', '=', 'failed')
                 ->count(),
             'labels' => $labels,
             'data' => $data

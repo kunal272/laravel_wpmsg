@@ -6,27 +6,56 @@
 
 @section('style')
     <style>
-        .preview-wrapper {
-            background: #f1f3f4;
-            border-radius: 10px;
-            padding: 15px;
-            height: 100%;
+        .wa-mobile {
+            width: 100%;
+            max-width: 360px;
+            background: #e5ddd5;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, .15);
+            margin: auto;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont;
         }
 
-        .preview-header {
-            font-weight: 600;
-            text-align: center;
-            margin-bottom: 10px;
-        }
-
-        .preview-box {
-            /* background: #dcf8c6; */
-            background: #43b9b21a;
+        .wa-topbar {
+            background: #075e54;
+            color: #fff;
             padding: 12px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .wa-chat-area {
+            padding: 12px;
+            min-height: 260px;
+        }
+
+        .wa-msg {
+            max-width: 85%;
+            padding: 8px 10px 18px;
             border-radius: 8px;
-            min-height: 150px;
-            white-space: pre-wrap;
             font-size: 14px;
+            line-height: 1.45;
+            position: relative;
+        }
+
+        .wa-received {
+            background: #ffffff;
+            margin-right: auto;
+            border-top-left-radius: 0;
+        }
+
+        .wa-text {
+            white-space: pre-wrap;
+            color: #111;
+        }
+
+        .wa-meta {
+            position: absolute;
+            right: 8px;
+            bottom: 4px;
+            font-size: 11px;
+            color: #888;
         }
 
         .preview-placeholder {
@@ -61,7 +90,7 @@
                         <div class="row">
 
                             <!-- LEFT : FORM (8 COLS) -->
-                            <div class="col-md-8">
+                            <div class="col-md-9">
                                 <form id="sendMessageForm" class="form theme-form" enctype="multipart/form-data">
                                     @csrf
 
@@ -136,36 +165,39 @@
                             </div>
 
                             <!-- RIGHT : PREVIEW (4 COLS) -->
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="preview-wrapper">
-                                    <div class="preview-header">
+                                    <div class="preview-header text-center">
                                         <i class="fa-solid fa-eye"></i> Message Preview
                                     </div>
 
-                                    <div id="messagePreview" class="preview-box">
-                                        <p class="preview-placeholder">
-                                            Message preview will appear here...
-                                        </p>
+                                    <div class="wa-mobile">
+                                        <div class="wa-topbar">
+                                            <i class="fa-brands fa-whatsapp"></i> WhatsApp
+                                        </div>
+
+                                        <div class="wa-chat-area">
+                                            <div class="wa-msg wa-received">
+                                                <div id="messagePreview" class="wa-text">
+                                                    <span class="preview-placeholder">
+                                                        Message preview will appear here...
+                                                    </span>
+                                                </div>
+
+                                                <div class="wa-meta">
+                                                    <span class="wa-time">{{ date('g:i A') }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
+
+
+
+
                                 </div>
 
-                                {{-- <div id="messagePreview" class="preview-box">
 
-                                    <div class="preview-header">
-                                        <i class="fa-solid fa-eye"></i> Message Preview
-                                    </div>
-                                    <!-- Image Preview -->
-                                    <div id="previewImageWrapper" class="mb-2 d-none">
-                                        <img id="previewImage" class="img-fluid rounded"
-                                            style="max-height:200px;width:100%;object-fit:cover;">
-                                    </div>
 
-                                    <!-- Text Preview -->
-                                    <div id="previewText" class="preview-placeholder">
-                                        Message preview will appear here...
-                                    </div>
-
-                                </div> --}}
                             </div>
 
                         </div>

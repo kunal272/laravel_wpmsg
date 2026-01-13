@@ -193,7 +193,7 @@ class PhonebookController extends Controller
             /* =================================================================== */
 
             $phonebookId = DB::table('phonebooks')->insertGetId([
-                'user_id' => Auth::id(),
+                'user_id' => Auth::user()->id,
                 'name' => $request->phonebook_name,
                 'total_numbers' => 0,
                 'created_at' => now()
