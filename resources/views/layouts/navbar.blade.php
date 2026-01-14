@@ -34,57 +34,58 @@
                  </li>
              @endif
 
-
-             <li class="sidebar-list">
-                 <svg class="pinned-icon">
-                     <use href="{{ url('/public/assets/svg/iconly-sprite.svg') }}#Filter">
-                     </use>
-                 </svg><a class="sidebar-link" href="{{ url('/sendmessage') }}">
-                     <svg class="stroke-icon">
+             @if (isset($permission) && !empty($permission->sendmessage))
+                 <li class="sidebar-list">
+                     <svg class="pinned-icon">
                          <use href="{{ url('/public/assets/svg/iconly-sprite.svg') }}#Filter">
                          </use>
-                     </svg><span>Send Message</span></a>
-             </li>
+                     </svg><a class="sidebar-link" href="{{ url('/sendmessage') }}">
+                         <svg class="stroke-icon">
+                             <use href="{{ url('/public/assets/svg/iconly-sprite.svg') }}#Filter">
+                             </use>
+                         </svg><span>Send Message</span></a>
+                 </li>
+             @endif
 
-
-
-             <li class="sidebar-list">
-                 <svg class="pinned-icon">
-                     <use href="{{ url('/public/assets/svg/iconly-sprite.svg') }}#Pin">
-                     </use>
-                 </svg><a class="sidebar-link" href="{{ url('/device') }}">
-                     <svg class="stroke-icon">
-                         <use href="{{ url('/public/assets/svg/iconly-sprite.svg') }}#Activity">
+             @if (isset($permission) && !empty($permission->device))
+                 <li class="sidebar-list">
+                     <svg class="pinned-icon">
+                         <use href="{{ url('/public/assets/svg/iconly-sprite.svg') }}#Pin">
                          </use>
-                     </svg><span>Devices</span>
-                 </a>
-             </li>
-
-
-             <li class="sidebar-list">
-                 <svg class="pinned-icon">
-                     <use href="{{ url('/public/assets/svg/iconly-sprite.svg') }}#Pin">
-                     </use>
-                 </svg><a class="sidebar-link" href="{{ url('/phonebook') }}">
-                     <svg class="stroke-icon">
-                         <use href="{{ url('/public/assets/svg/iconly-sprite.svg') }}#Document">
+                     </svg><a class="sidebar-link" href="{{ url('/device') }}">
+                         <svg class="stroke-icon">
+                             <use href="{{ url('/public/assets/svg/iconly-sprite.svg') }}#Activity">
+                             </use>
+                         </svg><span>Devices</span>
+                     </a>
+                 </li>
+             @endif
+             @if (isset($permission) && !empty($permission->phonebook))
+                 <li class="sidebar-list">
+                     <svg class="pinned-icon">
+                         <use href="{{ url('/public/assets/svg/iconly-sprite.svg') }}#Pin">
                          </use>
-                     </svg><span>PhoneBook</span>
-                 </a>
+                     </svg><a class="sidebar-link" href="{{ url('/phonebook') }}">
+                         <svg class="stroke-icon">
+                             <use href="{{ url('/public/assets/svg/iconly-sprite.svg') }}#Document">
+                             </use>
+                         </svg><span>PhoneBook</span>
+                     </a>
 
-             </li>
-
-             <li class="sidebar-list">
-                 <svg class="pinned-icon">
-                     <use href="{{ url('/public/assets/svg/iconly-sprite.svg') }}#Chat">
-                     </use>
-                 </svg><a class="sidebar-link" href="{{ url('/templates') }}">
-                     <svg class="stroke-icon">
+                 </li>
+             @endif
+             @if (isset($permission) && !empty($permission->templates))
+                 <li class="sidebar-list">
+                     <svg class="pinned-icon">
                          <use href="{{ url('/public/assets/svg/iconly-sprite.svg') }}#Chat">
                          </use>
-                     </svg><span>Templates</span></a>
-             </li>
-
+                     </svg><a class="sidebar-link" href="{{ url('/templates') }}">
+                         <svg class="stroke-icon">
+                             <use href="{{ url('/public/assets/svg/iconly-sprite.svg') }}#Chat">
+                             </use>
+                         </svg><span>Templates</span></a>
+                 </li>
+             @endif
 
 
              @if (isset($permission) && $permission->actionlog)

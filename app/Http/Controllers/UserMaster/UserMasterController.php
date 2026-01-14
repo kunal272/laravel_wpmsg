@@ -51,9 +51,13 @@ class UserMasterController extends Controller
                 ->table('user_permission2')
                 ->where('user_id', $user_id)
                 ->update([
-                    'dashboard' => $permission->dashboard,
-                    'actionlog' => $permission->actionlog,
-                    'usermaster' => $permission->usermaster
+                    'dashboard'   => $permission->dashboard,
+                    'sendmessage' => $permission->sendmessage,
+                    'device'      => $permission->device,
+                    'phonebook'   => $permission->phonebook,
+                    'templates'   => $permission->templates,
+                    'actionlog'   => $permission->actionlog,
+                    'usermaster'  => $permission->usermaster
                 ]);
 
             if (!empty($Success)) {
@@ -86,8 +90,8 @@ class UserMasterController extends Controller
                 ->insertGetId([
                     'username' => $request->username,
                     'password' => $request->password,
-                    'access' => $request->user_role,
-                    'indate' => Carbon::now()
+                    'access'  => $request->user_role,
+                    'indate'  => Carbon::now()
                 ]);
             DB::connection('mysql')->table('user_permission2')
                 ->insert([

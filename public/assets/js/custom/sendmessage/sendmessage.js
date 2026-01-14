@@ -31,14 +31,14 @@ $(document).ready(function () {
             // Convert links into clickable links
             let formattedMessage = message.replace(
                 /(https?:\/\/[^\s]+)/g,
-                '<a href="$1" target="_blank">$1</a>'
+                '<a href="$1" class="text-primary" target="_blank">$1</a>'
             );
 
             $('#messagePreview').html(formattedMessage);
         }
     }
 
-    
+
 
 
 

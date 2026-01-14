@@ -31,11 +31,15 @@ CREATE TABLE `user_permission2` (
 `user_Id` int NOT NULL,
 `username` varchar(50) NOT NULL,
 `dashboard` tinyint(1) DEFAULT '1' COMMENT '/dashboard',
+`sendmessage` tinyint(1) DEFAULT '0' COMMENT '/sendmessage',
+`device` tinyint(1) DEFAULT '0' COMMENT '/device',
+`phonebook` tinyint(1) DEFAULT '0' COMMENT '/phonebook',
+`templates` tinyint(1) DEFAULT '0' COMMENT '/templates',
 `actionlog` tinyint(1) DEFAULT '0' COMMENT '/actionlog',
 `usermaster` tinyint(1) DEFAULT '0' COMMENT '/usermaster',
 `InDate` datetime DEFAULT NULL,
 PRIMARY KEY (`Id`)
-) ;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE `actionlogs` (
 `id` int unsigned NOT NULL AUTO_INCREMENT,

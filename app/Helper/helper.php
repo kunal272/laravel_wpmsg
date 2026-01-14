@@ -31,9 +31,9 @@ class Helper
 
             ]);
             if ($request->getStatusCode() == 200) {
-                DB::connection('mysql')->table('organization_master')->where('orgId', $orgId)->update([
-                    'isWelcomeMailSent' => true
-                ]);
+                // DB::connection('mysql')->table('organization_master')->where('orgId', $orgId)->update([
+                //     'isWelcomeMailSent' => true
+                // ]);
                 return true;
             }
             return false;
@@ -61,9 +61,9 @@ class Helper
 
             ]);
             if ($request->getStatusCode() == 200) {
-                DB::connection('mysql')->table('organization_master')->where('orgId', $orgId)->update([
-                    'isWelcomeMailSent' => true
-                ]);
+                // DB::connection('mysql')->table('organization_master')->where('orgId', $orgId)->update([
+                //     'isWelcomeMailSent' => true
+                // ]);
                 return true;
             }
             return false;

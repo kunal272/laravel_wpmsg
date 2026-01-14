@@ -7,6 +7,10 @@
             <th>User_Role</th>
             <th>Select_All</th>
             <th>Dashboard</th>
+            <th>Sendmessage</th>
+            <th>Device</th>
+            <th>Phonebook</th>
+            <th>templates</th>
             <th>ActionLog</th>
             <th>UserMaster</th>
         </tr>
@@ -16,6 +20,10 @@
             @php
                 $permissions = [
                     'dashboard',
+                    'sendmessage',
+                    'device',
+                    'phonebook',
+                    'templates',
                     'actionlog',
                     'usermaster',
                 ];
