@@ -101,10 +101,10 @@ class DeviceController extends Controller
     public function scanDevice(Request $request)
     {
         try {
-            // dd($request->all());
+            // dd(env('NODE_API_KEY'));
             $id = $request->id;
             $response = Http::withHeaders([
-                'x-api-key' => env('NODE_API_KEY')
+                'x-api-key' => "secret123"
             ])->get("http://127.0.0.1:3001/api/whatsapp/qr/$id");
 
             try {
@@ -139,7 +139,7 @@ class DeviceController extends Controller
             $deviceId = $request->id;
 
             $response = Http::withHeaders([
-                'x-api-key' => env('NODE_API_KEY')
+                'x-api-key' => "secret123"
             ])->get("http://127.0.0.1:3001/api/whatsapp/status/$deviceId");
 
             if (!$response->successful()) {

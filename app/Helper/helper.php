@@ -21,7 +21,7 @@ class Helper
             $baseuri_email = url('/api/emailapi');
             $request = $client->post($baseuri_email, [
                 'json' => [
-                    'from' => "cybersecai@npav.net",
+                    'from' => "kunalbphp780@gmail.com",
                     'to' => $to,
                     'title' => "NP CyberSecAi Storage",
                     'header' => "Your SSD Tracker Account Access Details",
@@ -51,7 +51,7 @@ class Helper
             $baseuri_email = url('/api/emailapi');
             $request = $client->post($baseuri_email, [
                 'json' => [
-                    'from' => "cybersecai@npav.net",
+                    'from' => "kunalbphp780@gmail.com",
                     'to' => $to,
                     'title' => "NP CyberSecAi Storage",
                     'header' => "Your SSD Tracker Account Access Details",

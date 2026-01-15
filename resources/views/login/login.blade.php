@@ -109,9 +109,9 @@
                                     </div>
 
                                     <div class="form-group mb-0 checkbox-checked">
-                                        {{-- <a class="form-check checkbox-solid-info"
-                                            href="{{ url('/password/reset') }}">Forgot
-                                            password?</a> --}}
+                                        <a class="form-check checkbox-solid-info"
+                                            href="{{ url('/forgot-password') }}">Forgot
+                                            password?</a>
                                         <div class="text-end mt-3">
                                             <button class="btn btn-primary btn-block w-100 text-white"
                                                 type="submit">Sign

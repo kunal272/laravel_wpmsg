@@ -43,10 +43,10 @@ class ProcessWhatsappQueue extends Command
                 ]);
 
                 $response = Http::withHeaders([
-                    'x-api-key' => env('NODE_API_KEY'),
+                    'x-api-key'    => "secret123",
                     'Content-Type' => 'application/json'
                 ])->timeout(30)
-                    ->post(env('WHATSAPP_API_URL') . '/api/whatsapp/send', [
+                    ->post('http://127.0.0.1:3001/api/whatsapp/send', [
                         'user_id' => $msg->device_id,
                         'number'  => $msg->mobile,
                         'message' => $msg->message,

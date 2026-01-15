@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Login\LoginController;
+use App\Http\Controllers\ForgotPassword\ForgotPasswordController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Device\DeviceController;
 use App\Http\Controllers\Log\ActionLogController;
@@ -26,6 +27,20 @@ use App\Http\Middleware\CheckActiveSession;
 Route::get('/login', function () {
     return view('login');
 });
+
+
+// Show the forgot password page
+Route::get('/forgot-password', function () {
+    return view('forgotPassword.forgot-password');
+});
+
+// Handle the form submission
+Route::post('/forgot-password-link', [ForgotPasswordController::class, 'sendCustomResetLink']);
+
+// Show reset password form
+Route::get('/reset-password/{token}', [ForgotPasswordController::class, 'showResetForm']);
+// Handle new password submit
+Route::post('/reset-password/update', [ForgotPasswordController::class, 'reset']);
 
 
 Route::get("/",                                      [LoginController::class, 'index'])->name("/");
