@@ -240,7 +240,7 @@
                         <div class="card-body">
                             <i class="fa-solid fa-circle-check fa-2x text-success"></i>
                             <h6 class="mt-2">Success Messages</h6>
-                            <h4>{{ $todayMessages }}</h4>
+                            <h4>{{ $messagesSuccess }}</h4>
                         </div>
                     </div>
                 </div>
@@ -251,7 +251,7 @@
                         <div class="card-body">
                             <i class="fa-solid fa-circle-xmark fa-2x text-danger"></i>
                             <h6 class="mt-2">Failed Messages</h6>
-                            <h4>{{ $todayMessages }}</h4>
+                            <h4>{{ $messagesFailed }}</h4>
                         </div>
                     </div>
                 </div>

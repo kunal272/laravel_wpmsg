@@ -130,8 +130,8 @@ $(document).ready(function (e) {
                 } else {
                     $("#qrBox").html(
                         '<p id="qrStatus" class="text-danger">' +
-                            res.message +
-                            "</p>"
+                        res.message +
+                        "</p>"
                     );
                 }
             },
@@ -165,7 +165,7 @@ $(document).ready(function (e) {
                 },
 
                 success: function (res) {
-                    if (!res.status) {
+                    if (!res.success) {
                         Swal.fire("Error", res.message, "error");
                         return;
                     } else {
@@ -184,14 +184,117 @@ $(document).ready(function (e) {
             });
         });
     });
+
+    $(document).on("click", ".btn-delete", function () {
+        let deviceId = $(this).data("id");
+
+        Swal.fire({
+            title: "Delete Device?",
+            text: "This action cannot be undone!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Yes, Delete",
+        }).then((result) => {
+            if (!result.isConfirmed) return;
+
+            $.ajax({
+                url: baseUrl + "/device/delete",
+                type: "POST",
+                data: { id: deviceId },
+                beforeSend: function () {
+                    $(".loader-wrapper").removeClass("d-none");
+                },
+                success: function (res) {
+                    if (!res.status) {
+                        Swal.fire("Error", res.message, "error");
+                        return;
+                    }
+                    Swal.fire("Success", res.message, "success");
+                    var page = sessionStorage.getItem("pageno") ?? 1;
+                    getData(page);
+                },
+                complete: function () {
+                    $(".loader-wrapper").addClass("d-none");
+                },
+                error: function () {
+                    Swal.fire("Error", "Delete service unavailable", "error");
+                },
+            });
+        });
+    });
+
+    $(document).on("click", ".copy-token", function () {
+        let token = $(this).data("token");
+
+        navigator.clipboard.writeText(token).then(() => {
+            Swal.fire({
+                icon: "success",
+                title: "Copied!",
+                html: "API Token copied to clipboard.<br><b>" + token + "</b>",
+                timer: 2000,
+                showConfirmButton: false
+            });
+        }).catch(() => {
+            Swal.fire("Error", "Unable to copy token", "error");
+        });
+    });
+
+
 });
+
+// let statusInterval = null;
+
+// function startStatusCheck(deviceId) {
+//     if (statusInterval) {
+//         clearInterval(statusInterval);
+//     }
+
+//     statusInterval = setInterval(function () {
+//         $.ajax({
+//             url: baseUrl + "/device/checkStatus",
+//             type: "POST",
+//             data: { id: deviceId },
+
+//             success: function (res) {
+//                 // API error
+//                 if (!res.success) {
+//                     // $("#qrModal #qrStatus").removeClass("text-danger");
+//                     $("#qrModal #qrStatus").addclass("text-danger");
+//                     $("#qrModal #qrStatus").text(res.message || "Status error");
+
+//                     return;
+//                 }
+
+//                 if (res.is_ready) {
+//                     clearInterval(statusInterval);
+
+//                     Swal.fire({
+//                         icon: "success",
+//                         title: "WhatsApp Connected!",
+//                         text: res.message || "Device connected successfully",
+//                         confirmButtonText: "OK",
+//                     }).then(() => {
+//                         $("#qrModal").modal("hide");
+//                         getData(1);
+//                     });
+//                     return;
+//                 }
+
+//                 // Waiting for QR scan
+//                 if (res.status === "QR_REQUIRED") {
+//                     $("#qrModal #qrStatus").addclass("text-success");
+//                     $("#qrModal #qrStatus").text("Waiting for scan...");
+//                 }
+//             },
+//         });
+//     }, 1000);
+// }
+
 
 let statusInterval = null;
 
 function startStatusCheck(deviceId) {
-    if (statusInterval) {
-        clearInterval(statusInterval);
-    }
+    if (statusInterval) clearInterval(statusInterval);
 
     statusInterval = setInterval(function () {
         $.ajax({
@@ -200,17 +303,23 @@ function startStatusCheck(deviceId) {
             data: { id: deviceId },
 
             success: function (res) {
-                // API error
                 if (!res.success) {
-                    // $("#qrModal #qrStatus").removeClass("text-danger");
-                    $("#qrModal #qrStatus").addclass("text-danger");
-                    $("#qrModal #qrStatus").text(res.message || "Status error");
-
+                    $("#qrMessage")
+                        .removeClass("text-success text-warning")
+                        .addClass("text-danger")
+                        .text(res.message || "Status error");
+                    $("#qrState").text("Error");
                     return;
                 }
 
                 if (res.is_ready) {
                     clearInterval(statusInterval);
+
+                    $("#qrMessage")
+                        .removeClass("text-danger text-warning")
+                        .addClass("text-success")
+                        .text(res.message || "Device connected successfully");
+                    $("#qrState").text("READY");
 
                     Swal.fire({
                         icon: "success",
@@ -224,12 +333,34 @@ function startStatusCheck(deviceId) {
                     return;
                 }
 
-                // Waiting for QR scan
                 if (res.status === "QR_REQUIRED") {
-                    $("#qrModal #qrStatus").addclass("text-success");
-                    $("#qrModal #qrStatus").text("Waiting for scan...");
+                    $("#qrMessage")
+                        .removeClass("text-danger text-warning")
+                        .addClass("text-success")
+                        .text(res.message || "Please scan the QR code");
+                    $("#qrState")
+                        .removeClass("text-danger text-warning")
+                        .addClass("text-success")
+                        .text("Waiting for scan...");
+                } else {
+                    $("#qrMessage")
+                        .removeClass("text-success text-danger")
+                        .addClass("text-warning")
+                        .text(res.message || "Unknown status");
+                    $("#qrState")
+                        .removeClass("text-success text-danger")
+                        .addClass("text-warning")
+                        .text(res.status || "Unknown");
                 }
             },
+
+            error: function () {
+                $("#qrMessage")
+                    .removeClass("text-success text-warning")
+                    .addClass("text-danger")
+                    .text("Failed to reach server");
+                $("#qrState").text("Error");
+            }
         });
     }, 1000);
 }

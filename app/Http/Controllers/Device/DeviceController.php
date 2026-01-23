@@ -104,8 +104,8 @@ class DeviceController extends Controller
             // dd(env('NODE_API_KEY'));
             $id = $request->id;
             $response = Http::withHeaders([
-                'x-api-key' => "secret123"
-            ])->get("http://127.0.0.1:3001/api/whatsapp/qr/$id");
+                'x-api-key' => config('constant.node_api_key'),
+            ])->get(config('constant.whatsapp_api_url') . "/api/whatsapp/qr/$id");
 
             try {
 
@@ -139,8 +139,8 @@ class DeviceController extends Controller
             $deviceId = $request->id;
 
             $response = Http::withHeaders([
-                'x-api-key' => "secret123"
-            ])->get("http://127.0.0.1:3001/api/whatsapp/status/$deviceId");
+                'x-api-key' => config('constant.node_api_key'),
+            ])->get(config('constant.whatsapp_api_url') . "/api/whatsapp/status/$deviceId");
 
             if (!$response->successful()) {
                 return response()->json([
@@ -202,16 +202,19 @@ class DeviceController extends Controller
 
             $deviceId = $request->id;
 
+
             $response = Http::withHeaders([
-                'x-api-key' => env('NODE_API_KEY')
-            ])->post("http://127.0.0.1:3001/api/whatsapp/logout/$deviceId");
+                'x-api-key' => config('constant.node_api_key'),
+            ])->post(
+                config('constant.whatsapp_api_url') . "/api/whatsapp/logout/{$deviceId}"
+            );
 
 
             info($response->json());
 
-            if ($response->json('status')) {
+            if ($response->json('success')) {
                 DB::table('whatsapp_devices')
-                    ->where('user_id', $deviceId)
+                    ->where('id', $deviceId)
                     ->update([
                         'status' => 'DISCONNECTED',
                         'updated_at' => now()
@@ -244,6 +247,53 @@ class DeviceController extends Controller
                 return response()->json(['status' => false, 'message' => substr($e->getMessage(), 0, 126), 'string' => $e->__toString()]);
             } else {
                 return response()->json(['status' => false, 'message' => "Something went wrong..!"]);
+            }
+        }
+    }
+
+    public function deleteDevice(Request $request)
+    {
+        try {
+            $deviceId = $request->id;
+
+            if (!$deviceId) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Device ID is required'
+                ]);
+            }
+
+            $deleted = DB::connection('mysql')
+                ->table('whatsapp_devices')
+                ->where('id', $deviceId)
+                ->where('user_id', Auth::user()->id)
+                ->delete();
+
+            if (!$deleted) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Device not found or already deleted'
+                ]);
+            }
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Device deleted successfully'
+            ]);
+        } catch (\Exception $e) {
+            info('Error at DeviceController deleteDevice :' . $e->getMessage());
+
+            if (in_array($_SERVER['REMOTE_ADDR'], config()->get('constant.Setting.AdminIpList'))) {
+                return response()->json([
+                    'status' => false,
+                    'error' => substr($e->getMessage(), 0, 126),
+                    'string' => $e->__toString()
+                ]);
+            } else {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Something went wrong..!'
+                ]);
             }
         }
     }

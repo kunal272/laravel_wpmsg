@@ -12,6 +12,7 @@ use App\Http\Controllers\Session\SessionController;
 use App\Http\Controllers\Phonebook\PhonebookController;
 use App\Http\Controllers\Template\TemplateController;
 use App\Http\Controllers\SendMessage\SendMessageController;
+use App\Http\Controllers\Report\TodayReportController;
 
 
 ##########################
@@ -63,7 +64,6 @@ Route::middleware([Checklogin::class, CheckActiveSession::class])->group(functio
     Route::get('/usermaster',                        [UserMasterController::class, 'index']);
     // });
 
-
     // Dashboard Modal
     // Route::get('/dashboard',                         [DashboardController::class, 'dashboard']);
     Route::post('/dashboard/table',                  [DashboardController::class, 'loadTable']);
@@ -75,6 +75,7 @@ Route::middleware([Checklogin::class, CheckActiveSession::class])->group(functio
     Route::post('/device/scanDevice',                [DeviceController::class, 'scanDevice']);
     Route::post('/device/checkStatus',               [DeviceController::class, 'checkStatus']);
     Route::post('/device/logout',                    [DeviceController::class, 'logout']);
+    Route::post('/device/delete',                    [DeviceController::class, 'deleteDevice']);
 
 
     // phonebook
@@ -109,6 +110,10 @@ Route::middleware([Checklogin::class, CheckActiveSession::class])->group(functio
     Route::post('/usermaster/data',                  [UserMasterController::class, 'getData']);
     Route::post('/usermaster/givepermission',        [UserMasterController::class, 'givepermission']);
     Route::post('/usermaster/addNewUser',            [UserMasterController::class, 'addNewUser']);
+
+
+    Route::get('/todayreport',                       [TodayReportController::class, 'index']);
+    Route::post('/todayreport/data',                 [TodayReportController::class, 'getData']);
 
 
     //Profile

@@ -37,15 +37,15 @@ class DashboardController extends Controller
             'contacts'       => DB::table('phonebook_contacts')->count(),
             'todayMessages'  => DB::table('message_queue')
                 // ->where('user_id', Auth::user()->id)
-                // ->whereDate('sent_at', today())
+                ->whereDate('sent_at', today())
                 ->where('status', '=', 'sent')
                 ->count(),
-            'todayMessagesSuccess'  => DB::table('message_queue')
+            'messagesSuccess'  => DB::table('message_queue')
                 // ->where('user_id', Auth::user()->id)
                 // ->whereDate('sent_at', today())
                 ->where('status', '=', 'sent')
                 ->count(),
-            'todayMessagesFailed'  => DB::table('message_queue')
+            'messagesFailed'  => DB::table('message_queue')
                 // ->where('user_id', Auth::user()->id)
                 // ->whereDate('sent_at', today())
                 ->where('status', '=', 'failed')

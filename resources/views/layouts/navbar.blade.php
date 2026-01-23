@@ -34,18 +34,7 @@
                  </li>
              @endif
 
-             @if (isset($permission) && !empty($permission->sendmessage))
-                 <li class="sidebar-list">
-                     <svg class="pinned-icon">
-                         <use href="{{ url('/public/assets/svg/iconly-sprite.svg') }}#Filter">
-                         </use>
-                     </svg><a class="sidebar-link" href="{{ url('/sendmessage') }}">
-                         <svg class="stroke-icon">
-                             <use href="{{ url('/public/assets/svg/iconly-sprite.svg') }}#Filter">
-                             </use>
-                         </svg><span>Send Message</span></a>
-                 </li>
-             @endif
+
 
              @if (isset($permission) && !empty($permission->device))
                  <li class="sidebar-list">
@@ -87,6 +76,18 @@
                  </li>
              @endif
 
+             @if (isset($permission) && !empty($permission->sendmessage))
+                 <li class="sidebar-list">
+                     <svg class="pinned-icon">
+                         <use href="{{ url('/public/assets/svg/iconly-sprite.svg') }}#Filter">
+                         </use>
+                     </svg><a class="sidebar-link" href="{{ url('/sendmessage') }}">
+                         <svg class="stroke-icon">
+                             <use href="{{ url('/public/assets/svg/iconly-sprite.svg') }}#Filter">
+                             </use>
+                         </svg><span>Send Message</span></a>
+                 </li>
+             @endif
 
              @if (isset($permission) && $permission->actionlog)
                  <li class="sidebar-list">
@@ -130,6 +131,35 @@
                          </svg><span>UserMaster</span></a>
                  </li>
              @endif
+
+
+
+             <li class="sidebar-list">
+                 <svg class="pinned-icon">
+                     <use href="{{ url('/public/assets/svg/iconly-sprite.svg') }}#Danger">
+                     </use>
+                 </svg><a class="sidebar-link" href="javascript:void(0)">
+                     <svg class="stroke-icon">
+                         <use href="{{ url('/public/assets/svg/iconly-sprite.svg') }}#Danger">
+                         </use>
+                     </svg><span>Report</span>
+                     <svg class="feather">
+                         <use
+                             href="{{ url('/public/assets/svg/feather-icons/dist/feather-sprite.svg') }}#chevron-right">
+                         </use>
+                     </svg></a>
+                 <ul class="sidebar-submenu">
+
+                     <li><a href="{{ url('/todayreport') }}">
+                             <svg class="svg-menu">
+                                 <use href="{{ url('/public/assets/svg/iconly-sprite.svg') }}#right-3">
+                                 </use>
+                             </svg>Today Report</a>
+                     </li>
+
+                 </ul>
+             </li>
+
 
          </ul>
      </div>

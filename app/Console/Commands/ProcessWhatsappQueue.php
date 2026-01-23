@@ -21,7 +21,7 @@ class ProcessWhatsappQueue extends Command
         Log::info('WhatsApp Queue Cron Started');
 
         $messages = DB::table('message_queue')
-            ->where('status', 'pending')
+            ->whereIn('status', ['pending', 'failed'])
             ->limit(20)
             ->get();
 
@@ -46,7 +46,7 @@ class ProcessWhatsappQueue extends Command
                     'x-api-key'    => "secret123",
                     'Content-Type' => 'application/json'
                 ])->timeout(30)
-                    ->post('http://127.0.0.1:3001/api/whatsapp/send', [
+                    ->post(config('constant.whatsapp_api_url') . "/api/whatsapp/send", [
                         'user_id' => $msg->device_id,
                         'number'  => $msg->mobile,
                         'message' => $msg->message,

@@ -70,7 +70,7 @@
                                                 required>
                                         </div>
                                         <div class="mb-3">
-                                            <label for="webhook_url" class="form-label fw-bold">User Role</label>
+                                            <label for="webhook_url" class="form-label fw-bold">Webhook Url</label>
                                             <input type="webhook_url" class="form-control" id="webhook_url"
                                                 name="webhook_url" autocomplete="off" placeholder="Webhook URL">
                                         </div>
@@ -132,24 +132,26 @@
                                                 Waiting for scan
                                             </div>
 
-                                            <div class="mt-2 text-danger" id="qrStatus">
+                                            {{-- <div class="mt-2 text-danger" id="qrStatus"> --}}
+                                            <div class="mt-2" id="qrMessage"></div>
+                                            <div class="mt-1 small" id="qrState"></div>
 
-                                            </div>
                                         </div>
-
                                     </div>
-                                </div>
 
+                                </div>
                             </div>
+
                         </div>
                     </div>
-
-
-
                 </div>
-            </div>
 
+
+
+            </div>
         </div>
+
+    </div>
 
     </div>
     <!-- END MAIN-CONTENT -->
